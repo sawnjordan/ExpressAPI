@@ -1,0 +1,6 @@
+CURD (Create, Read, Update, Delete)
+
+Create => POST
+Read => GET
+Update => PUT/PATCH
+Delete => DELETE
