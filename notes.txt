@@ -4,3 +4,145 @@ Create => POST
 Read => GET
 Update => PUT/PATCH
 Delete => DELETE
+
+Rule set 
+camelCase, PascalCase/StudlyCaps, snake_case, CAPS, skewer-case/kebab-case
+
+Naming Convention 
+    Folder Name         ---> skewer-case
+    File Name           ---> skewer-case 
+    class Name          ---> PascalCase 
+    function Naming     ---> camelCase 
+    variable Naming     ---> camelCase/snake_case
+    Constant Naming     ---> CAPSCASE
+
+    Folder Organization 
+    src 
+        config/
+            app.js => express config 
+            route.config.js => 
+        modules/
+            auth/
+                file.controller.js
+                file.model.js 
+                file.services.js 
+                file.routes.js 
+                index.js 
+            features/
+                feature.controller.js
+                feature.model.js 
+                feature.services.js 
+                feature.routes.js 
+                index.js 
+        common/
+            common.controller.js 
+            common.model.js
+        utilites 
+            helpers.js
+        server.js
+
+
+
+    src/
+        controller/
+            ...
+        model/
+            ...
+        services/
+            ...
+        config/
+            ....
+        routes/
+            ...
+        helpers/
+            ...
+        server.js
+        app.js 
+        
+
+
+Web Application/Web 
+    - News portal 
+    - Ecommerce 
+    - MIS 
+
+Ecommerce Type 
+    - B2C
+        - daraz 
+    - C2C 
+        - hamrobazar 
+    - G2B
+    - C2B
+
+B2C 
+    -> Ecommerce 
+        
+        - Add to Cart 
+        - Order Management
+        - Payment System 
+        - Review and Rating 
+        - Categorised Data 
+        - Offers 
+        - Product Search System 
+        - Order Tracking 
+        - Logistic 
+        - Analytics 
+        
+        - Social Media Integrations 
+
+
+
+- Authorization and Authentication 
+- Product CRUD Operation 
+- Category CRUD Operation 
+- Brand CRUD Operation 
+- Order Management 
+
+- Payment Management(Integration)
+- Review And Rating 
+- Offer Modules 
+- Blog 
+- Inventory 
+- Social Media Integration 
+
+
+Role based Actions 
+- 3 roles 
+    admin -> All Permission 
+    seller  -> Can perform CRUD with the self products 
+            -> Can view the order placed for their products
+    customer -> Can place order in the system 
+            -> Can view his/her History of the order
+
+
+FrontView ======> View 
+CMS => Content Management System ===> 
+
+// Make the project Directory
+// get inside the project directory
+    // npm init
+    // Answer all the questions with your answers
+    // npm init -y 
+// install expres in your project 
+    // npm i express 
+// Express application develop
+
+// Routing => API 
+=> Api is an endpoint or url configured for the request handling 
+
+Auth 
+    -> Register System 
+        => Get data 
+        -> Creation of user 
+
+CRUD 
+Create  => post 
+Read => Get 
+update => put/patch 
+Delete => delete
+
+
+- Software 
+    - Postman 
+    - Insomnia 
+    - thunder client (extension VSCODE )
