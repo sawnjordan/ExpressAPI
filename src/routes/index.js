@@ -6,6 +6,7 @@ const brandRoutes = require("../modules/brands/brands.routes");
 const categoryRoutes = require("../modules/categories/categories.routes");
 const authRoutes = require("../modules/auth/auth.routes");
 const productRoutes = require("../modules/products/products.routes");
+const orderRoutes = require("../modules/orders/order.routes");
 
 //TODO: Route mount
 
@@ -13,6 +14,7 @@ router.use(authRoutes);
 router.use("/brands", brandRoutes);
 router.use("/categories", categoryRoutes);
 router.use("/products", productRoutes);
+router.use("/orders", orderRoutes);
 
 // router.use((req, res, next) => {
 //   console.log("I am always called");
