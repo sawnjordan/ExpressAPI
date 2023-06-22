@@ -12,7 +12,7 @@ const productRoutes = require("../modules/products/products.routes");
 router.use(authRoutes);
 router.use("/brands", brandRoutes);
 router.use("/category", categoryRoutes);
-router.use("/product", categoryRoutes);
+router.use("/product", productRoutes);
 
 // router.use((req, res, next) => {
 //   console.log("I am always called");
