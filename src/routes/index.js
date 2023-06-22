@@ -2,13 +2,17 @@
 // const router = express.Router(); //Provides us a middleware capable enough to handle all routing
 
 const router = require("express").Router(); //mathi ko two line of code is same as this line of code
-const brandRouter = require("../modules/brand/brand.routes");
+const brandRoutes = require("../modules/brand/brand.routes");
 const categoryRoutes = require("../modules/category/category.routes");
+const authRoutes = require("../modules/auth/auth.routes");
+const productRoutes = require("../modules/products/products.routes");
 
 //TODO: Route mount
 
-router.use("/brands", brandRouter);
+router.use(authRoutes);
+router.use("/brands", brandRoutes);
 router.use("/category", categoryRoutes);
+router.use("/product", categoryRoutes);
 
 // router.use((req, res, next) => {
 //   console.log("I am always called");
