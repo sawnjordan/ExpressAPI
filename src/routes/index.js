@@ -2,8 +2,8 @@
 // const router = express.Router(); //Provides us a middleware capable enough to handle all routing
 
 const router = require("express").Router(); //mathi ko two line of code is same as this line of code
-const brandRoutes = require("../modules/brands/brand.routes");
-const categoryRoutes = require("../modules/category/category.routes");
+const brandRoutes = require("../modules/brands/brands.routes");
+const categoryRoutes = require("../modules/categories/categories.routes");
 const authRoutes = require("../modules/auth/auth.routes");
 const productRoutes = require("../modules/products/products.routes");
 
