@@ -52,7 +52,7 @@ b. Routing Level Middleware
 c. Custom Middlware
 -> We normally mount custom middlwar to the route path
 
-d. Third Party MIddleware
+d. Third Party Middleware
 => multer ==>multipart/form-data
 
 e. Bultin Middlware
