@@ -1,4 +1,4 @@
-const { route } = require("../brand/brand.routes");
+const { route } = require("../brands/brand.routes");
 
 const router = require("express").Router();
 
