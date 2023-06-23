@@ -10,7 +10,7 @@ const orderRoutes = require("../modules/orders/order.routes");
 
 //TODO: Route mount
 
-router.use(authRoutes);
+router.use("/auth", authRoutes);
 router.use("/brands", brandRoutes);
 router.use("/categories", categoryRoutes);
 router.use("/products", productRoutes);

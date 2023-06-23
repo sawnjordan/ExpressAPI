@@ -1,31 +1,22 @@
 const router = require("express").Router();
+const { authCtrl } = require("./");
 
-router.post("/register", (req, res) => {
-  res.json({ msg: "This is POST request to register a user." });
-});
+//name, email or phone
+//email send with token activation token => url
+//http://domain/verify-token/token
 
-router.post("/login", (req, res) => {
-  res.json({ msg: "This is POST request to login a user." });
-});
+router.post("/register", authCtrl.registerUser);
 
-router.post("/logout", (req, res, next) => {
-  res.json({ msg: "This is POST request to logout." });
-});
+router.get("/verify-token/:token", authCtrl.verifyToken);
 
-router.get("/profile", (req, res, next) => {
-  res.json({
-    msg: "This is GET request to view logged in user profile information.",
-  });
-});
+router.post("/password-reset", authCtrl.passwordReset);
 
-router.post("/profile/edit", (req, res, next) => {
-  res.json({
-    msg: "This is POST request to edit logged in user profile information.",
-  });
-});
+router.post("/login", authCtrl.loginUser);
 
-router.post("/password/reset", (req, res, next) => {
-  res.json({ msg: "This is POST request to reset the password." });
-});
+router.get("/me", authCtrl.viewProfile);
+
+router.put("/me/:id", authCtrl.editProfile);
+
+router.post("/logout", authCtrl.logoutUser);
 
 module.exports = router;
