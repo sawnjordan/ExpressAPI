@@ -16,7 +16,11 @@ class AuthController {
 
     const { name, email, role } = req.body;
 
-    res.json({ msg: "This is POST request to register a user.", data });
+    res.json({
+      msg: "This is POST request to register a user.",
+      data,
+      cookie: req.cookies,
+    });
   };
 
   verifyToken = (req, res, next) => {};

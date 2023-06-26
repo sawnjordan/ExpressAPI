@@ -1,11 +1,16 @@
 const express = require("express");
 const router = require("../routes");
+const cookieParser = require("cookie-parser");
 const app = express();
 
 //if your content type is application/json us this middleware
 app.use(express.json());
 
+//if your content type is application/x-www-from-urlencoded
 app.use(express.urlencoded({ extended: false }));
+
+//to use cookie
+app.use(cookieParser());
 
 app.use("/api/v1", router);
 
