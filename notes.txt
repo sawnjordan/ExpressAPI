@@ -146,3 +146,12 @@ Delete => delete
     - Postman 
     - Insomnia 
     - thunder client (extension VSCODE )
+
+===== Plugis/packages ======
+-> csv-parser
+-> cookies-parser
+-> form data line paryo vani multer vanni middleware
+
+-- Validation packages
+    = Zod validation packages mostly used.
+    = joi
