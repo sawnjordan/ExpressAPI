@@ -3,24 +3,43 @@
 //   res.json({ msg: "This is POST request to register a user." });
 // };
 //file upload garna paryo vani form data use garna parhca postman ma
+const { z } = require("zod");
+const AuthService = require("./auth.service");
 
 class AuthController {
-  registerUser = (req, res, next) => {
+  //yo chai constructor bata inject gareko authservice lai
+  // constructor() {
+  //   this.authService = new AuthService();
+  // }
+  constructor(ser) {
+    this.authService = ser;
+  }
+  registerUser = async (req, res, next) => {
     //data
     //validation
     //custom validation, package
 
     //manipulation
     //client response
-    let data = req.body;
+    try {
+      let data = req.body;
+      let validData = await this.authService.validateRegisterData(data);
+      res.status(200).json({
+        result: validData,
+        msg: "Register successful.",
+        meta: null,
+      });
+    } catch (error) {
+      next(error);
+    }
 
-    const { name, email, role } = req.body;
+    // const { name, email, role } = req.body;
 
-    res.json({
-      msg: "This is POST request to register a user.",
-      data,
-      cookie: req.cookies,
-    });
+    // // res.json({
+    // //   msg: "This is POST request to register a user.",
+    // //   data,
+    // //   cookie: req.cookies,
+    // // });
   };
 
   verifyToken = (req, res, next) => {};

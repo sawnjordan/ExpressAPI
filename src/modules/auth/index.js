@@ -1,5 +1,6 @@
 const AuthController = require("./auth.controller");
+const AuthService = require("./auth.service");
+const authService = new AuthService();
+const authCtrl = new AuthController(authService);
 
-const authCtrl = new AuthController();
-
-module.exports = { authCtrl };
+module.exports = { authCtrl, authService };
