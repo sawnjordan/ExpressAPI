@@ -11,8 +11,8 @@ class AuthController {
   // constructor() {
   //   this.authService = new AuthService();
   // }
-  constructor(ser) {
-    this.authService = ser;
+  constructor(svc) {
+    this.authService = svc;
   }
   registerUser = async (req, res, next) => {
     //data

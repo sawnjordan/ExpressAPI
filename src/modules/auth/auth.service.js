@@ -3,6 +3,7 @@ class AuthService {
   validateRegisterData = async (data) => {
     try {
       const validateSchema = z.object({
+        //all properties are required by default
         name: z
           .string()
           .min(3, {
@@ -11,7 +12,9 @@ class AuthService {
           .nonempty(),
         email: z.string().email().nonempty(),
         address: z.string(),
-        phone: z.string().nullable(), //this allows to have null value, by default nullable huncha
+        phone: z.string().min(7, {
+          message: "The Phone number must contain atleast 7 numbers.",
+        }),
       });
 
       let response = validateSchema.parse(data);
