@@ -15,6 +15,7 @@ class AuthService {
         phone: z.string().min(7, {
           message: "The Phone number must contain atleast 7 numbers.",
         }),
+        image: z.string().nullable(),
       });
 
       let response = validateSchema.parse(data);

@@ -5,6 +5,7 @@
 //file upload garna paryo vani form data use garna parhca postman ma
 const { z } = require("zod");
 const AuthService = require("./auth.service");
+const { generateRandomStrings } = require("../../utilities/helpers");
 
 class AuthController {
   //yo chai constructor bata inject gareko authservice lai
@@ -15,15 +16,27 @@ class AuthController {
     this.authService = svc;
   }
   registerUser = async (req, res, next) => {
-    //data
-    //validation
-    //custom validation, package
-
-    //manipulation
-    //client response
     try {
+      //data
+
+      //custom validation, package
+
       let data = req.body;
+      data.image = req.file.filename;
+
+      //validation
+
       let validData = await this.authService.validateRegisterData(data);
+
+      //manipulation
+
+      let activateToken = generateRandomStrings;
+
+      let url = `http://localhost:3005/activate/${activateToken}`;
+      //data.email ma email pathaidina paryo
+
+      //client response
+
       res.status(200).json({
         result: validData,
         msg: "Register successful.",
