@@ -56,7 +56,7 @@ class AuthController {
         <p>Regards!!,</p>
         <p>System Admin,</p>
         <p><small>🙏Please donot reply to this email.🙏</small></p>`,
-        text: "<b>Hello world?</b>",
+        // text: "<b>Hello world?</b>",
       });
       //client response
       // console.log(sendMailSuccess);
