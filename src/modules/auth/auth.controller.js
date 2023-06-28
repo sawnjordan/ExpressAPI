@@ -59,11 +59,14 @@ class AuthController {
         text: "<b>Hello world?</b>",
       });
       //client response
-      console.log(sendMailSuccess);
+      // console.log(sendMailSuccess);
       res.status(200).json({
         result: validData,
         msg: "Register successful.",
-        meta: null,
+        meta: {
+          emailStatus: "Success",
+          emailMessageId: sendMailSuccess.messageId,
+        },
       });
     } catch (error) {
       console.log(error);
