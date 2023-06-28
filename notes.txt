@@ -155,3 +155,5 @@ Delete => delete
 -- Validation packages
     = Zod validation packages mostly used.
     = joi
+
+Sharp NPM package
