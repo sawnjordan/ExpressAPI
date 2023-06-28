@@ -6,6 +6,7 @@
 const { z } = require("zod");
 const AuthService = require("./auth.service");
 const { generateRandomStrings } = require("../../utilities/helpers");
+const nodemailer = require("nodemailer");
 
 class AuthController {
   //yo chai constructor bata inject gareko authservice lai
@@ -30,19 +31,42 @@ class AuthController {
 
       //manipulation
 
-      let activateToken = generateRandomStrings;
+      let activateToken = generateRandomStrings(100);
 
       let url = `http://localhost:3005/activate/${activateToken}`;
       //data.email ma email pathaidina paryo
+      const transport = nodemailer.createTransport({
+        host: "sandbox.smtp.mailtrap.io",
+        port: 2525,
+        auth: {
+          user: "dc2fc8ce79b19a",
+          pass: "5ee65de88abe4e",
+        },
+      });
 
+      let sendMailSuccess = await transport.sendMail({
+        from: "noreply@domain.com", // sender address
+        to: data.email, // list of receivers
+        subject: "Activate your Account!", // Subject line
+        html: `<p><stong>Dear ${data.name} 🙂,</stong></p> Your account has been registered.
+        <p>Please click the link below or copy and paste the URL on the browser to activate your account.</p>
+        <a href="${url}">${url}</a>
+        <br/>
+
+        <p>Regards!!,</p>
+        <p>System Admin,</p>
+        <p><small>🙏Please donot reply to this email.🙏</small></p>`,
+        text: "<b>Hello world?</b>",
+      });
       //client response
-
+      console.log(sendMailSuccess);
       res.status(200).json({
         result: validData,
         msg: "Register successful.",
         meta: null,
       });
     } catch (error) {
+      console.log(error);
       next(error);
     }
 
