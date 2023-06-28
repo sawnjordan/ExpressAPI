@@ -39,8 +39,8 @@ class AuthController {
         host: "sandbox.smtp.mailtrap.io",
         port: 2525,
         auth: {
-          user: "dc2fc8ce79b19a",
-          pass: "5ee65de88abe4e",
+          user: process.env.MAILTRAP_USERNAME,
+          pass: process.env.MAILTRAP_PASSWORD,
         },
       });
 
