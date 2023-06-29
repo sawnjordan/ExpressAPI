@@ -7,6 +7,7 @@ const { z } = require("zod");
 const AuthService = require("./auth.service");
 const { generateRandomStrings } = require("../../utilities/helpers");
 const nodemailer = require("nodemailer");
+const MailService = require("../../../services/mail.service");
 
 class AuthController {
   //yo chai constructor bata inject gareko authservice lai
@@ -15,6 +16,7 @@ class AuthController {
   // }
   constructor(svc) {
     this.authService = svc;
+    this.mailService = new MailService();
   }
   registerUser = async (req, res, next) => {
     try {
@@ -35,20 +37,11 @@ class AuthController {
 
       let url = `http://localhost:3005/activate/${activateToken}`;
       //data.email ma email pathaidina paryo
-      const transport = nodemailer.createTransport({
-        host: SMTP_MAILTRAP_HOST,
-        port: SMTP_MAILTRAP_PORT,
-        auth: {
-          user: process.env.SMTP_MAILTRAP_USERNAME,
-          pass: process.env.SMTP_MAILTRAP_PASSWORD,
-        },
-      });
 
-      let sendMailSuccess = await transport.sendMail({
-        from: "noreply@domain.com", // sender address
-        to: data.email, // list of receivers
-        subject: "Activate your Account!", // Subject line
-        html: `<p><stong>Dear ${data.name} 🙂,</stong></p> Your account has been registered.
+      this.mailService.setMessage({
+        to: data.email,
+        sub: "Activate your Account!",
+        msgBody: `<p><stong>Dear ${data.name} 🙂,</stong></p> Your account has been registered.
         <p>Please click the link below or copy and paste the URL on the browser to activate your account.</p>
         <a href="${url}">${url}</a>
         <br/>
@@ -58,8 +51,8 @@ class AuthController {
         <p><small>🙏Please donot reply to this email.🙏</small></p>`,
         // text: "<b>Hello world?</b>",
       });
-      //client response
-      // console.log(sendMailSuccess);
+
+      let sendMailSuccess = await this.mailService.sendEmail();
       res.status(200).json({
         result: validData,
         msg: "Register successful.",
