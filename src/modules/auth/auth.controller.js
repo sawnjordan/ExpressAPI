@@ -7,21 +7,19 @@ const { z } = require("zod");
 const AuthService = require("./auth.service");
 const { generateRandomStrings } = require("../../utilities/helpers");
 const nodemailer = require("nodemailer");
-const MailService = require("../../../services/mail.service");
 
 class AuthController {
   //yo chai constructor bata inject gareko authservice lai
   // constructor() {
   //   this.authService = new AuthService();
   // }
+
   constructor(svc) {
     this.authService = svc;
-    this.mailService = new MailService();
   }
   registerUser = async (req, res, next) => {
     try {
       //data
-
       //custom validation, package
 
       let data = req.body;
@@ -35,24 +33,14 @@ class AuthController {
 
       let activateToken = generateRandomStrings(100);
 
-      let url = `http://localhost:3005/activate/${activateToken}`;
+      let sendMailSuccess = await this.authService.sendActivationEmail(
+        data.email,
+        data.name,
+        activateToken
+      );
+
       //data.email ma email pathaidina paryo
 
-      this.mailService.setMessage({
-        to: data.email,
-        sub: "Activate your Account!",
-        msgBody: `<p><stong>Dear ${data.name} 🙂,</stong></p> Your account has been registered.
-        <p>Please click the link below or copy and paste the URL on the browser to activate your account.</p>
-        <a href="${url}">${url}</a>
-        <br/>
-
-        <p>Regards!!,</p>
-        <p>System Admin,</p>
-        <p><small>🙏Please donot reply to this email.🙏</small></p>`,
-        // text: "<b>Hello world?</b>",
-      });
-
-      let sendMailSuccess = await this.mailService.sendEmail();
       res.status(200).json({
         result: validData,
         msg: "Register successful.",
@@ -65,14 +53,6 @@ class AuthController {
       console.log(error);
       next(error);
     }
-
-    // const { name, email, role } = req.body;
-
-    // // res.json({
-    // //   msg: "This is POST request to register a user.",
-    // //   data,
-    // //   cookie: req.cookies,
-    // // });
   };
 
   verifyToken = (req, res, next) => {};
