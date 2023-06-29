@@ -36,11 +36,11 @@ class AuthController {
       let url = `http://localhost:3005/activate/${activateToken}`;
       //data.email ma email pathaidina paryo
       const transport = nodemailer.createTransport({
-        host: "sandbox.smtp.mailtrap.io",
-        port: 2525,
+        host: SMTP_MAILTRAP_HOST,
+        port: SMTP_MAILTRAP_PORT,
         auth: {
-          user: process.env.MAILTRAP_USERNAME,
-          pass: process.env.MAILTRAP_PASSWORD,
+          user: process.env.SMTP_MAILTRAP_USERNAME,
+          pass: process.env.SMTP_MAILTRAP_PASSWORD,
         },
       });
 
