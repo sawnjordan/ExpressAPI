@@ -30,29 +30,27 @@ class AuthController {
       //validation
 
       let validData = await this.authService.validateRegisterData(data);
+      // console.log(validData);
 
-      let activateToken = generateRandomStrings(100);
-      validData.activateToken = activateToken;
-      //manipulation
+      let activationToken = generateRandomStrings(100);
+      validData.activationToken = activationToken;
+      // //manipulation
 
-      //DB connection and store in DB
-      // const connection = await MongoClient.connect(process.env.MONGODB_URL);
-      // const db = connection.db(process.env.MONGODB_NAME);
+      // // const response = await db.collection("users").insertOne(validData);
+      // console.log(validData);
+      const newUser = await this.authService.registerUserData(validData);
+      console.log(newUser);
 
-      // const response = await db.collection("users").insertOne(validData);
+      let sendMailSuccess = await this.authService.sendActivationEmail(
+        newUser.email,
+        newUser.name,
+        activationToken
+      );
 
-      let newUser = new userModel(validData);
-
-      // let sendMailSuccess = await this.authService.sendActivationEmail(
-      //   data.email,
-      //   data.name,
-      //   activateToken
-      // );
-
-      //data.email ma email pathaidina paryo
+      // //data.email ma email pathaidina paryo
 
       res.status(200).json({
-        result: response,
+        result: newUser,
         msg: "Register successful.",
         meta: {
           emailStatus: "Success",
@@ -65,7 +63,26 @@ class AuthController {
     }
   };
 
-  verifyToken = (req, res, next) => {};
+  verifyToken = async (req, res, next) => {
+    try {
+      const token = req.params.token;
+      console.log(token);
+      const user = await this.authService.getUserByToken(token);
+      if (!user) {
+        next({ status: 400, msg: "Token broken/User alreaedy activated." });
+      } else {
+        res.status(200).json({
+          data: user,
+          status: true,
+          msg: "Token Verified and ready for activation.",
+          meta: null,
+        });
+      }
+    } catch (error) {
+      console.log(error);
+      next(error);
+    }
+  };
 
   passwordReset = (req, res, next) => {
     res.json({ msg: "This is POST request to reset the password." });

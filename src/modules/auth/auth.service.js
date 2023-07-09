@@ -1,5 +1,6 @@
 const { z } = require("zod");
 const MailService = require("../../../services/mail.service");
+const UserModel = require("./user.model");
 class AuthService {
   mailService;
   validateRegisterData = async (data) => {
@@ -16,20 +17,21 @@ class AuthService {
           })
           .nonempty(),
         email: z.string().email().nonempty(),
-        address: {
+        address: z.object({
           shippingAddress: z.string().nullable(),
           billingAddress: z.string().nullable(),
-        },
+        }),
         phone: z.string().min(7, {
           message: "The Phone number must contain atleast 7 numbers.",
         }),
         image: z.string().nullable(),
+        role: z.string().nullable(),
       });
-
       let response = validateSchema.parse(data);
-      //   console.log(response);
+      // console.log(response);
       return response;
     } catch (error) {
+      console.log(error);
       let errorBags = {};
       error.errors.map((item) => {
         errorBags[item.path[0]] = item.message;
@@ -59,6 +61,25 @@ class AuthService {
       return await this.mailService.sendEmail();
     } catch (error) {
       console.log(error);
+    }
+  };
+
+  registerUserData = async (data) => {
+    try {
+      const newUser = new UserModel(data);
+      return await newUser.save();
+    } catch (error) {
+      console.log(error);
+      throw { status: 500, msg: "Error Processing the query." };
+    }
+  };
+  getUserByToken = async (activationToken) => {
+    try {
+      const user = UserModel.findOne({ activationToken: activationToken });
+      return user;
+    } catch (error) {
+      console.log(error);
+      throw { status: 500, msg: "Error fetching data." };
     }
   };
 }
