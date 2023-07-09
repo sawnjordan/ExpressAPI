@@ -97,5 +97,14 @@ class AuthService {
       throw { status: 422, msg: "Update failed." };
     }
   };
+  getUserByFilter = async (filter = {}, excludeFields = "") => {
+    try {
+      let user = await UserModel.find(filter, excludeFields);
+      return user;
+    } catch (error) {
+      console.log(error);
+      throw { status: 422, msg: "User Fetch error." };
+    }
+  };
 }
 module.exports = AuthService;

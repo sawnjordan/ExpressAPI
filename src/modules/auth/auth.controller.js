@@ -119,8 +119,43 @@ class AuthController {
     }
   };
 
-  loginUser = (req, res, next) => {
-    res.json({ msg: "This is POST request to login a user." });
+  loginUser = async (req, res, next) => {
+    try {
+      let { email, password } = req.body;
+      if (!email || !password) {
+        throw { status: 400, msg: "Credentials Required." };
+      }
+      let user = await this.authService.getUserByFilter({ email });
+      if (!user) {
+        throw { status: 404, msg: "User doesn't exists." };
+      } else {
+        user = user[0];
+        if (bcrypt.compareSync(password, user.password)) {
+          if (user.status === "active") {
+            user = await this.authService.getUserByFilter(
+              { email },
+              "-password"
+            );
+            // console.log("first", user);
+            // delete user.password;
+            // console.log("second", user);
+            res.json({
+              data: user[0],
+              status: true,
+              msg: "You are logged in.",
+              meta: null,
+            });
+          } else {
+            next({ staus: 422, msg: "User not activated or is suspended." });
+          }
+        } else {
+          next({ status: 422, msg: "Credentials doesn't match." });
+        }
+      }
+    } catch (error) {
+      console.log(error);
+      next(error);
+    }
   };
 
   viewProfile = (req, res, next) => {
