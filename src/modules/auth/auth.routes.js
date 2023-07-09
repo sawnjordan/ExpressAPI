@@ -28,7 +28,7 @@ router.post(
 
 router.get("/verify-token/:token", authCtrl.verifyToken);
 
-router.post("/password-reset", authCtrl.passwordReset);
+router.post("/password-reset/:token", authCtrl.setPassword);
 
 router.post("/login", authCtrl.loginUser);
 

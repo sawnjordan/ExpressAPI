@@ -228,6 +228,8 @@ MongoDB Commands
             command:
              - db.products.find({discount: {$gt: '1000'}, brand:{$eq: "Apple"}})
 
+password ra confirm password ko mistake ani role add vako chaina db ma
+
 
 
 

@@ -87,5 +87,15 @@ class AuthService {
       throw { status: 500, msg: "Error fetching data." };
     }
   };
+
+  updateUser = async (userData, userId) => {
+    try {
+      let prevUser = UserModel.findByIdAndUpdate(userId, userData);
+      return prevUser;
+    } catch (error) {
+      console.log(error);
+      throw { status: 422, msg: "Update failed." };
+    }
+  };
 }
 module.exports = AuthService;
