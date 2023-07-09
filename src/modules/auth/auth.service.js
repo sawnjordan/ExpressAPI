@@ -75,7 +75,12 @@ class AuthService {
   };
   getUserByToken = async (activationToken) => {
     try {
-      const user = UserModel.findOne({ activationToken: activationToken });
+      const user = UserModel.findOne({
+        $and: [
+          { activationToken: activationToken },
+          { activationToken: { $ne: null } },
+        ],
+      });
       return user;
     } catch (error) {
       console.log(error);
