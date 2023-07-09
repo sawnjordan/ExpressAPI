@@ -1,3 +1,6 @@
+const auth = require("../../middlewares/auth.middlware");
+const checkPermission = require("../../middlewares/rbac.middleware");
+
 const router = require("express").Router();
 
 router
@@ -5,7 +8,7 @@ router
   .get((req, res, next) => {
     res.json({ msg: "I am all brand list (GET Request)" });
   })
-  .post((req, res, next) => {
+  .post(auth, checkPermission("admin"), (req, res, next) => {
     res.json({ msg: "I am create brand (POST Request)" });
   });
 
