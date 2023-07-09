@@ -7,6 +7,7 @@ const { z } = require("zod");
 const AuthService = require("./auth.service");
 const userModel = require("./user.model");
 const bcrypt = require("bcryptjs");
+const jwt = require("jsonwebtoken");
 
 class AuthController {
   //yo chai constructor bata inject gareko authservice lai
@@ -132,6 +133,21 @@ class AuthController {
         user = user[0];
         if (bcrypt.compareSync(password, user.password)) {
           if (user.status === "active") {
+            let accessToken = jwt.sign(
+              { id: user._id },
+              process.env.JWT_SECRET_KEY,
+              {
+                expiresIn: "1h",
+              }
+            );
+            let refreshToken = jwt.sign(
+              { id: user._id },
+              process.env.JWT_SECRET_KEY,
+              {
+                expiresIn: "7d",
+              }
+            );
+
             user = await this.authService.getUserByFilter(
               { email },
               "-password"
@@ -140,7 +156,7 @@ class AuthController {
             // delete user.password;
             // console.log("second", user);
             res.json({
-              data: user[0],
+              data: { accessToken, refreshToken },
               status: true,
               msg: "You are logged in.",
               meta: null,
@@ -158,10 +174,18 @@ class AuthController {
     }
   };
 
-  viewProfile = (req, res, next) => {
-    res.json({
-      msg: "This is GET request to view logged in user profile information.",
-    });
+  getLoggedInUserProfile = (req, res, next) => {
+    try {
+      res.json({
+        data: req.authUser,
+        status: true,
+        msg: "Your Profile",
+        meta: null,
+      });
+    } catch (error) {
+      console.log(error);
+      next(error);
+    }
   };
 
   editProfile = (req, res, next) => {

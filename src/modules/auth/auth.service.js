@@ -106,5 +106,19 @@ class AuthService {
       throw { status: 422, msg: "User Fetch error." };
     }
   };
+
+  getUserById = async (userId) => {
+    try {
+      let user = await UserModel.findById(userId, { password: 0 });
+      if (!user) {
+        throw { status: 404, msg: "User doesn't exists." };
+      } else {
+        return user;
+      }
+    } catch (error) {
+      console.log(error);
+      throw error;
+    }
+  };
 }
 module.exports = AuthService;

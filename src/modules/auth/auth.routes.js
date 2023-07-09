@@ -2,6 +2,7 @@ const router = require("express").Router();
 const multer = require("multer");
 const { authCtrl } = require("./");
 const uploader = require("../../middlewares/uploader.middleware");
+const auth = require("../../middlewares/auth.middlware");
 
 //file validation
 //name
@@ -32,7 +33,7 @@ router.post("/password-reset/:token", authCtrl.setPassword);
 
 router.post("/login", authCtrl.loginUser);
 
-router.get("/me", authCtrl.viewProfile);
+router.get("/me", auth, authCtrl.getLoggedInUserProfile);
 
 router.put("/me/:id", authCtrl.editProfile);
 
