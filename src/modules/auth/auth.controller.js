@@ -6,7 +6,9 @@
 const { z } = require("zod");
 const AuthService = require("./auth.service");
 const { generateRandomStrings } = require("../../utilities/helpers");
-const nodemailer = require("nodemailer");
+// const nodemailer = require("nodemailer");
+// const { MongoClient } = require("mongodb");
+const userModel = require("./user.model");
 
 class AuthController {
   //yo chai constructor bata inject gareko authservice lai
@@ -29,20 +31,28 @@ class AuthController {
 
       let validData = await this.authService.validateRegisterData(data);
 
+      let activateToken = generateRandomStrings(100);
+      validData.activateToken = activateToken;
       //manipulation
 
-      let activateToken = generateRandomStrings(100);
+      //DB connection and store in DB
+      // const connection = await MongoClient.connect(process.env.MONGODB_URL);
+      // const db = connection.db(process.env.MONGODB_NAME);
 
-      let sendMailSuccess = await this.authService.sendActivationEmail(
-        data.email,
-        data.name,
-        activateToken
-      );
+      // const response = await db.collection("users").insertOne(validData);
+
+      let newUser = new userModel(validData);
+
+      // let sendMailSuccess = await this.authService.sendActivationEmail(
+      //   data.email,
+      //   data.name,
+      //   activateToken
+      // );
 
       //data.email ma email pathaidina paryo
 
       res.status(200).json({
-        result: validData,
+        result: response,
         msg: "Register successful.",
         meta: {
           emailStatus: "Success",

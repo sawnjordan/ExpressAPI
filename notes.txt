@@ -157,3 +157,98 @@ Delete => delete
     = joi
 
 Sharp NPM package
+
+MongoDB Commands
+ == use db_name // this will use/create the db_name
+ == show dbs  //list all the available non-empty db list
+ == db  //show the current db
+
+
+ JSON   
+ => Collection ===> Tables
+ => Documents  ===> Rows
+
+
+ CRUD 
+    -> Create
+        -> To insert the data in the database
+        -> _id field will be auto added
+        -> this keyu performs as a primary key
+        -> it is unique
+        commands:
+            single Row => db.collectionName.inserOne(objectData)
+            multiple Row => db.collectionName.inserMany(objectData)
+
+    ->Read
+        commands:
+            db.collectionName.find()
+            db.collectionName.findOne()
+    ->Update
+        commands:
+            -> db.collectionName.updateOne(filter,{$set: dataUpdate})
+    ->Delete
+
+{"name": "Ramesh Singh","email": "ramesh@gmail.com","address": "India","phone": "98434344456","image":"1688348548257-IMG_20230518_095645.jpg"}
+
+    ecommerce   
+        command: 
+        - use ecommerce
+        try to insert product information with
+            - name,
+            - price,
+            - discount,
+            - afterDiscount,
+            - brand,
+            - category
+            ***keys in the product Tables
+
+
+            a. Insert atleast 10 different products with the above data
+            b. Using InserMany also try ot insert data.
+            command: 
+            - db.products.insertMany([{ "name": "Samsung A04", "price": "20000", "discount": '2000',"afterDiscout":"18000", "brand": "Samsung", "category": "mobile"},{ "name": "Samsung A23", "price": "30000", "discount": '5000',"afterDiscout":"15000", "brand": "Samsung", "category": "mobile"},{ "name": "iPhone13", "price": "150000", "discount": '10000',"afterDiscout":"140000", "brand": "Apple", "category": "mobile"},{ "name": "iPhone13 Pro", "price": "200000", "discount": '30000',"afterDiscout":"170000", "brand": "Apple", "category": "mobile"},{ "name": "Redmi Note 12", "price": "40000", "discount": '5000',"afterDiscout":"35000", "brand": "Redmi", "category": "mobile"},{ "name": "Readme GT NEO3", "price": "50000", "discount": '5000',"afterDiscout":"45000", "brand": "RealMe", "category": "mobile"},{ "name": "One Plus 9 Pro", "price": "120000", "discount": '25000',"afterDiscout":"95000", "brand": "OnePlus", "category": "mobile"},{ "name": "One Plus NORD", "price": "60000", "discount": '10000',"afterDiscout":"50000", "brand": "OnePlus", "category": "mobile"},{ "name": "Xiaomi 13", "price": "50000", "discount": '7000',"afterDiscout":"43000", "brand": "Xiomi", "category": "mobile"},{ "name": "Xiaomi 14", "price": "35000", "discount": '5000',"afterDiscout":"30000", "brand": "Xiomi", "category": "mobile"}])
+
+
+            c. Read all the data from the product  Tables
+
+            command:
+            - db.products.find()
+
+            d. Find only name, price and brand data from the products 
+            
+            command:
+            - db.products.find({}, {name: 1, price: 1, _id: 0})
+
+            e. Find all the products belonging to "apple" brand
+
+            command:
+            - db.products.find({brand: "Apple"})
+
+            f. Find all the products having price greater than 10% and from apple brand 
+            command:
+             - db.products.find({discount: {$gt: '1000'}, brand:{$eq: "Apple"}})
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

@@ -4,6 +4,9 @@ class AuthService {
   mailService;
   validateRegisterData = async (data) => {
     try {
+      if (typeof data.address === "string") {
+        data.address = JSON.parse(data.address);
+      }
       const validateSchema = z.object({
         //all properties are required by default
         name: z
@@ -13,7 +16,10 @@ class AuthService {
           })
           .nonempty(),
         email: z.string().email().nonempty(),
-        address: z.string(),
+        address: {
+          shippingAddress: z.string().nullable(),
+          billingAddress: z.string().nullable(),
+        },
         phone: z.string().min(7, {
           message: "The Phone number must contain atleast 7 numbers.",
         }),
