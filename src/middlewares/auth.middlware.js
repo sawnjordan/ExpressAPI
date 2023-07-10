@@ -1,5 +1,6 @@
 const jwt = require("jsonwebtoken");
 const AuthService = require("../modules/auth/auth.service");
+const PersonalAccessTokenModel = require("../modules/auth/access.token.model");
 const authService = new AuthService();
 const auth = async (req, res, next) => {
   try {
@@ -10,14 +11,22 @@ const auth = async (req, res, next) => {
       const accessToken = authorizationData.split(" ").pop();
       //token validate
       //token = bearer token => ["bearer", "token"].pop()
-      let data = jwt.verify(accessToken, process.env.JWT_SECRET_KEY);
-      //   console.log(data);
-      let user = await authService.getUserById(data.id);
-      if (!user) {
-        next({ status: 404, msg: "User doesn't exists." });
+      let userId = await PersonalAccessTokenModel.findOne({
+        accessToken: accessToken,
+      });
+
+      if (!userId) {
+        throw { status: 404, msg: "User Id doens't exists with this token." };
       } else {
-        req.authUser = user;
-        next();
+        let data = jwt.verify(accessToken, process.env.JWT_SECRET_KEY);
+        //   console.log(data);
+        let user = await authService.getUserById(data.id);
+        if (!user) {
+          next({ status: 404, msg: "User doesn't exists." });
+        } else {
+          req.authUser = user;
+          next();
+        }
       }
     }
     // console.log(accessToken);

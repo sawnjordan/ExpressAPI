@@ -8,6 +8,8 @@ const AuthService = require("./auth.service");
 const userModel = require("./user.model");
 const bcrypt = require("bcryptjs");
 const jwt = require("jsonwebtoken");
+const PersonalAccessTokenModel = require("./access.token.model");
+const { generateRandomStrings } = require("../../utilities/helpers");
 
 class AuthController {
   //yo chai constructor bata inject gareko authservice lai
@@ -147,6 +149,13 @@ class AuthController {
                 expiresIn: "7d",
               }
             );
+
+            let personalAccessToken = await new PersonalAccessTokenModel({
+              userId: user._id,
+              accessToken,
+              refreshToken,
+            }).save();
+            console.log(personalAccessToken);
 
             user = await this.authService.getUserByFilter(
               { email },
