@@ -1,6 +1,7 @@
 const jwt = require("jsonwebtoken");
 const AuthService = require("../modules/auth/auth.service");
 const PersonalAccessTokenModel = require("../modules/auth/access.token.model");
+const patServiceObj = require("../modules/auth/personal-access-token-services");
 const authService = new AuthService();
 const auth = async (req, res, next) => {
   try {
@@ -11,13 +12,17 @@ const auth = async (req, res, next) => {
       const accessToken = authorizationData.split(" ").pop();
       //token validate
       //token = bearer token => ["bearer", "token"].pop()
-      let userId = await PersonalAccessTokenModel.findOne({
-        accessToken: accessToken,
-      });
+      // let userId = await PersonalAccessTokenModel.findOne({
+      //   accessToken: accessToken,
+      // });
 
-      if (!userId) {
-        throw { status: 404, msg: "User Id doens't exists with this token." };
+      let patData = await patServiceObj.getPATFromToken(accessToken);
+      console.log(patData, "here");
+
+      if (!patData) {
+        throw { status: 404, msg: "User is not logged in." };
       } else {
+        // console.log(accessToken);
         let data = jwt.verify(accessToken, process.env.JWT_SECRET_KEY);
         //   console.log(data);
         let user = await authService.getUserById(data.id);
@@ -31,8 +36,8 @@ const auth = async (req, res, next) => {
     }
     // console.log(accessToken);
   } catch (error) {
-    console.log(error);
-    let msg = "Invalid Token";
+    // console.log(error);
+    let msg = error.msg ?? "Invalid Token";
     if (error instanceof jwt.JsonWebTokenError) {
       msg = error.message;
     }
