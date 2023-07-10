@@ -90,7 +90,7 @@ class AuthService {
 
   updateUser = async (userData, userId) => {
     try {
-      let prevUser = UserModel.findByIdAndUpdate(userId, userData);
+      let prevUser = UserModel.findByIdAndUpdate(userId, { $set: userData });
       return prevUser;
     } catch (error) {
       console.log(error);

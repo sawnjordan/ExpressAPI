@@ -17,7 +17,7 @@ const auth = async (req, res, next) => {
       // });
 
       let patData = await patServiceObj.getPATFromToken(accessToken);
-      console.log(patData, "here");
+      // console.log(patData, "here");
 
       if (!patData) {
         throw { status: 404, msg: "User is not logged in." };

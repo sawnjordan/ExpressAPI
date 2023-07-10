@@ -11,6 +11,22 @@ class PersonalAccessTokenService {
     }
   };
 
+  updateAccessToken = async (data, patId) => {
+    try {
+      let updateData = await PersonalAccessTokenModel.findByIdAndUpdate(
+        patId,
+        {
+          $set: data,
+        },
+        { new: true }
+      );
+      return updateData;
+    } catch (error) {
+      console.log(error);
+      throw { status: 400, msg: "Error updating the access token." };
+    }
+  };
+
   getPATFromToken = async (token) => {
     try {
       let data = await PersonalAccessTokenModel.findOne({

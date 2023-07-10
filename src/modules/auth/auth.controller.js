@@ -215,14 +215,29 @@ class AuthController {
     res.json({ msg: "This is POST request to logout." });
   };
 
-  refreshToken = (req, res, next) => {
+  refreshToken = async (req, res, next) => {
     try {
       let id = req.authUser.id;
       let accessToken = jwt.sign({ id: id }, process.env.JWT_SECRET_KEY, {
         expiresIn: "1h",
       });
+      let refreshToken = req.headers["authorization"].split(" ").pop();
+      // console.log(refreshToken);
+      let patDataToUpdate = {
+        userId: id,
+        accessToken: accessToken,
+        refreshToken: refreshToken,
+      };
+      console.log(patDataToUpdate);
+      let patData = await patServiceObj.getPATFromToken(refreshToken);
+      // console.log(patData);
+      let patResponse = await patServiceObj.updateAccessToken(
+        patDataToUpdate,
+        patData._id
+      );
+      console.log(patResponse);
       res.json({
-        data: accessToken,
+        data: patResponse.accessToken,
         status: true,
         msg: "Token Refreshed.",
         meta: null,
