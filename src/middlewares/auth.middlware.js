@@ -9,6 +9,7 @@ const auth = async (req, res, next) => {
     } else {
       const accessToken = authorizationData.split(" ").pop();
       //token validate
+      //token = bearer token => ["bearer", "token"].pop()
       let data = jwt.verify(accessToken, process.env.JWT_SECRET_KEY);
       //   console.log(data);
       let user = await authService.getUserById(data.id);

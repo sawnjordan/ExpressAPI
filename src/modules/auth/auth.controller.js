@@ -197,6 +197,24 @@ class AuthController {
   logoutUser = (req, res, next) => {
     res.json({ msg: "This is POST request to logout." });
   };
+
+  refreshToken = (req, res, next) => {
+    try {
+      let id = req.authUser.id;
+      let accessToken = jwt.sign({ id: id }, process.env.JWT_SECRET_KEY, {
+        expiresIn: "1h",
+      });
+      res.json({
+        data: accessToken,
+        status: true,
+        msg: "Token Refreshed.",
+        meta: null,
+      });
+    } catch (error) {
+      console.log(error);
+      next(error);
+    }
+  };
 }
 
 module.exports = AuthController;

@@ -35,6 +35,8 @@ router.post("/login", authCtrl.loginUser);
 
 router.get("/me", auth, authCtrl.getLoggedInUserProfile);
 
+router.get("/refresh-token", auth, authCtrl.refreshToken);
+
 router.put("/me/:id", authCtrl.editProfile);
 
 router.post("/logout", authCtrl.logoutUser);
