@@ -228,14 +228,14 @@ class AuthController {
         accessToken: accessToken,
         refreshToken: refreshToken,
       };
-      console.log(patDataToUpdate);
+      // console.log(patDataToUpdate);
       let patData = await patServiceObj.getPATFromToken(refreshToken);
       // console.log(patData);
       let patResponse = await patServiceObj.updateAccessToken(
         patDataToUpdate,
         patData._id
       );
-      console.log(patResponse);
+      // console.log(patResponse);
       res.json({
         data: patResponse.accessToken,
         status: true,
