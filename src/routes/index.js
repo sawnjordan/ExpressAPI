@@ -5,12 +5,14 @@ const router = require("express").Router(); //mathi ko two line of code is same 
 const brandRoutes = require("../modules/brands/brands.routes");
 const categoryRoutes = require("../modules/categories/categories.routes");
 const authRoutes = require("../modules/auth/auth.routes");
+const bannerRoutes = require("../modules/banner/banner.routes");
 const productRoutes = require("../modules/products/products.routes");
 const orderRoutes = require("../modules/orders/order.routes");
 
 //TODO: Route mount
 
 router.use("/auth", authRoutes);
+router.use("/", bannerRoutes);
 router.use("/brands", brandRoutes);
 router.use("/categories", categoryRoutes);
 router.use("/products", productRoutes);
