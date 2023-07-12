@@ -49,7 +49,7 @@ class BannerController {
       }
     } catch (error) {
       console.log(error);
-      throw error;
+      next(error);
     }
   };
   updateBanner = async (req, res, next) => {
@@ -82,7 +82,7 @@ class BannerController {
       }
     } catch (error) {
       console.log(error);
-      throw error;
+      next(error);
     }
   };
   deleteBanner = async (req, res, next) => {
@@ -97,7 +97,7 @@ class BannerController {
       });
     } catch (error) {
       console.log(error);
-      throw error;
+      next(error);
     }
   };
 }
