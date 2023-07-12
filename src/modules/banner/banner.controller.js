@@ -28,6 +28,26 @@ class BannerController {
     }
   };
 
+  getBannerForHomePage = async (req, res, next) => {
+    try {
+      let data = await bannerServiceObj.getBannerByFilter({
+        status: "active",
+      });
+      res.json({
+        data: data,
+        status: true,
+        msg: "Banner Fetched.",
+        meta: null,
+      });
+    } catch (error) {
+      console.log(error);
+      next({
+        status: 400,
+        msg: error.message ?? "Error fetching banner data.",
+      });
+    }
+  };
+
   createBanner = async (req, res, next) => {
     try {
       let data = req.body;

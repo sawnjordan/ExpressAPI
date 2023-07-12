@@ -12,6 +12,8 @@ const uploadDir = (req, res, next) => {
   next();
 };
 
+router.get("/home", bannerControllerObj.getBannerForHomePage);
+
 router
   .route("/")
   .get(auth, checkPermission("admin"), bannerControllerObj.getAllBanners)

@@ -101,6 +101,15 @@ class BannerServices {
       throw error;
     }
   };
+
+  getBannerByFilter = async (filter = {}) => {
+    try {
+      return await BannerModel.find(filter).sort({ _id: "desc" }).limit(10);
+    } catch (error) {
+      console.log(error);
+      throw error;
+    }
+  };
 }
 const bannerServiceObj = new BannerServices();
 module.exports = bannerServiceObj;
