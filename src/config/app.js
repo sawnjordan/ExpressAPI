@@ -20,9 +20,17 @@ app.use("/api/v1", router);
 //this is express global error handling middleware. The first parameter is always err.
 app.use((err, req, res, next) => {
   console.log(err);
+  if (err.code === 11000 && err.keyPattern && err.keyValue) {
+    const fieldName = Object.keys(err.keyPattern)[0];
+    const fieldValue = err.keyValue[fieldName];
+
+    res.status(400).json({
+      error: `Duplicate value '${fieldValue}' for field '${fieldName}.'`,
+    });
+  }
   let statusCode = err.status || 500;
   let msg = err.msg || "Internal Server Error.";
-  res.status(statusCode).json({ data: null, msg: msg, meta: null });
+  res.status(statusCode).json({ err, data: null, msg: msg, meta: null });
 });
 
 module.exports = app;

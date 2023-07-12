@@ -53,7 +53,7 @@ class BannerController {
       let data = req.body;
       data.image = req.file?.filename;
       let createdBy = req.authUser._id;
-      let validBannerData = await bannerServiceObj.validateBannerData(data);
+      let validBannerData = bannerServiceObj.validateBannerData(data);
       validBannerData.createdBy = createdBy;
       let newBanner = await bannerServiceObj.storeBanner(validBannerData);
 
