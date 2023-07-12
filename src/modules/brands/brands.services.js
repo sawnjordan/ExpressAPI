@@ -59,7 +59,18 @@ class BrandServices {
       throw error;
     }
   };
-
+  deleteBrandById = async (id) => {
+    try {
+      let response = await BrandModel.findByIdAndDelete(id);
+      if (!response) {
+        throw { status: 400, msg: "Brand not found or already delete." };
+      }
+      return response;
+    } catch (error) {
+      console.log(error);
+      throw error;
+    }
+  };
   listBrands = async ({ perPage = 10, page = 1 }) => {
     try {
       let skip = (page - 1) * perPage;

@@ -83,6 +83,22 @@ class BrandController {
       next(error);
     }
   };
+
+  deleteBrand = async (req, res, next) => {
+    try {
+      const brandId = req.params.id;
+      let del = await brandServiceObj.deleteBrandById(brandId);
+      res.json({
+        data: del,
+        status: true,
+        msg: "Brand Deleted Successfully",
+        meta: null,
+      });
+    } catch (error) {
+      console.log(error);
+      next(error);
+    }
+  };
 }
 const brandControllerObj = new BrandController();
 module.exports = brandControllerObj;

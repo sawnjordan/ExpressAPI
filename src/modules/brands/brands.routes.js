@@ -32,15 +32,11 @@ router
     uploader.single("logo"),
     brandControllerObj.updateBrand
   )
-  .delete(auth, checkPermission("admin"), (req, res, next) => {
-    res.json({
-      msg: `I am DELETE Request for deleting brand with id:${req.params.id} `,
-    });
-  });
-router.get("/:id", (req, res, next) => {
-  res.json({
-    msg: `I am GET Request for getting details of brand with id:${req.params.id} `,
-  });
-});
+  .delete(auth, checkPermission("admin"), brandControllerObj.deleteBrand);
+// router.get("/:id", (req, res, next) => {
+//   res.json({
+//     msg: `I am GET Request for getting details of brand with id:${req.params.id} `,
+//   });
+// });
 
 module.exports = router;
