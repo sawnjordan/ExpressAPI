@@ -12,7 +12,7 @@ const orderRoutes = require("../modules/orders/order.routes");
 //TODO: Route mount
 
 router.use("/auth", authRoutes);
-router.use("/", bannerRoutes);
+router.use("/banner", bannerRoutes);
 router.use("/brands", brandRoutes);
 router.use("/categories", categoryRoutes);
 router.use("/products", productRoutes);

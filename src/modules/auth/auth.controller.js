@@ -52,7 +52,8 @@ class AuthController {
       //data.email ma email pathaidina paryo
 
       res.status(200).json({
-        result: newUser,
+        data: newUser,
+        status: true,
         msg: "Register successful.",
         meta: {
           emailStatus: "Success",
