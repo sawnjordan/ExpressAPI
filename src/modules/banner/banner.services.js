@@ -88,6 +88,19 @@ class BannerServices {
       throw error;
     }
   };
+
+  deleteBannerById = async (id) => {
+    try {
+      let response = await BannerModel.findByIdAndDelete(id);
+      if (!response) {
+        throw { status: 404, msg: "Banner not found or already deleted." };
+      }
+      return response;
+    } catch (error) {
+      console.log(error);
+      throw error;
+    }
+  };
 }
 const bannerServiceObj = new BannerServices();
 module.exports = bannerServiceObj;

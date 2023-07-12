@@ -12,28 +12,25 @@ const uploadDir = (req, res, next) => {
   next();
 };
 
-router.get(
-  "/",
-  auth,
-  checkPermission("admin"),
-  bannerControllerObj.getAllBanners
-);
+router
+  .route("/")
+  .get(auth, checkPermission("admin"), bannerControllerObj.getAllBanners)
+  .post(
+    auth,
+    checkPermission("admin"),
+    uploadDir,
+    uploader.single("image"),
+    bannerControllerObj.createBanner
+  );
 
-router.post(
-  "/",
-  auth,
-  checkPermission("admin"),
-  uploadDir,
-  uploader.single("image"),
-  bannerControllerObj.createBanner
-);
-
-router.put(
-  "/:id",
-  auth,
-  checkPermission("admin"),
-  uploadDir,
-  uploader.single("image"),
-  bannerControllerObj.updateBanner
-);
+router
+  .route("/:id")
+  .put(
+    auth,
+    checkPermission("admin"),
+    uploadDir,
+    uploader.single("image"),
+    bannerControllerObj.updateBanner
+  )
+  .delete(auth, checkPermission("admin"), bannerControllerObj.deleteBanner);
 module.exports = router;

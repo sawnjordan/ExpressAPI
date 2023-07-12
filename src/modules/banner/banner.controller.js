@@ -1,3 +1,4 @@
+const BannerModel = require("./banner.model");
 const bannerServiceObj = require("./banner.services");
 
 class BannerController {
@@ -79,6 +80,21 @@ class BannerController {
       } else {
         throw { status: 400, msg: "Failed to create Banner." };
       }
+    } catch (error) {
+      console.log(error);
+      throw error;
+    }
+  };
+  deleteBanner = async (req, res, next) => {
+    try {
+      let bannerId = req.params.id;
+      let del = await bannerServiceObj.deleteBannerById(bannerId);
+      res.json({
+        data: del,
+        status: true,
+        msg: "Banner Deleted Successfully",
+        meta: null,
+      });
     } catch (error) {
       console.log(error);
       throw error;
