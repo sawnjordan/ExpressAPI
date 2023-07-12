@@ -28,10 +28,12 @@ router.post(
   bannerControllerObj.createBanner
 );
 
-// router.put(
-//   "/:id",
-//   auth,
-//   checkPermission("admin"),
-//   bannerControllerObj.updateBanner
-// );
+router.put(
+  "/:id",
+  auth,
+  checkPermission("admin"),
+  uploadDir,
+  uploader.single("image"),
+  bannerControllerObj.updateBanner
+);
 module.exports = router;

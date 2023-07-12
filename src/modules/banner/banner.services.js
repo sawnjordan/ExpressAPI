@@ -66,6 +66,28 @@ class BannerServices {
       throw error;
     }
   };
+
+  getBannerById = async (id) => {
+    try {
+      let banner = await BannerModel.findById(id);
+      if (!banner) {
+        throw { status: 400, msg: "Banner doesn't exists." };
+      }
+      return banner;
+    } catch (error) {
+      console.log(error);
+      throw error;
+    }
+  };
+
+  updateBanner = async (id, data) => {
+    try {
+      return await BannerModel.findByIdAndUpdate(id, { $set: data });
+    } catch (error) {
+      console.log(error);
+      throw error;
+    }
+  };
 }
 const bannerServiceObj = new BannerServices();
 module.exports = bannerServiceObj;
