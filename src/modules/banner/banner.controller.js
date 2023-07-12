@@ -9,13 +9,13 @@ class BannerController {
         page: parseInt(req.query.page) ?? 1,
       };
       let data = await bannerServiceObj.listBanners(pagination);
-      let banenrCount = bannerServiceObj.getCount();
+      let bannerCount = await bannerServiceObj.getCount();
       res.json({
         data: data,
         status: true,
         msg: "",
         meta: {
-          totalCount: banenrCount,
+          totalCount: bannerCount,
           ...pagination,
         },
       });

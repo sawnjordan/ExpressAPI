@@ -1,6 +1,14 @@
 const { z } = require("zod");
 const BrandModel = require("./brands.model");
 class BrandServices {
+  getCount = async () => {
+    try {
+      return await BrandModel.count();
+    } catch (error) {
+      console.log(error);
+      throw error;
+    }
+  };
   validateBrandData = (data) => {
     try {
       if (typeof data.logo === "undefined") {
@@ -39,6 +47,23 @@ class BrandServices {
       return await brand.save();
     } catch (error) {
       //   console.log("askldfsadflkjl");
+      console.log(error);
+      throw error;
+    }
+  };
+  listBrands = async ({ perPage = 10, page = 1 }) => {
+    try {
+      let skip = (page - 1) * perPage;
+      let data = await BrandModel.find()
+        .sort({ _id: "desc" })
+        .limit(perPage)
+        .skip(skip);
+      if (data) {
+        return data;
+      } else {
+        throw { status: 404, msg: "No any brand found." };
+      }
+    } catch (error) {
       console.log(error);
       throw error;
     }

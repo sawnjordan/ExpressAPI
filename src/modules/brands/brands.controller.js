@@ -1,3 +1,4 @@
+const BrandModel = require("./brands.model");
 const brandServiceObj = require("./brands.services");
 
 class BrandController {
@@ -22,6 +23,27 @@ class BrandController {
         status: true,
         msg: "Brand Created Successfully.",
         meta: null,
+      });
+    } catch (error) {
+      console.log(error);
+      next(error);
+    }
+  };
+
+  getAllBrands = async (req, res, next) => {
+    try {
+      let { perPage, page } = req.query;
+      let pagination = { perPage: parseInt(perPage), page: parseInt(page) };
+      let data = await brandServiceObj.listBrands(pagination);
+      let brandCount = await brandServiceObj.getCount();
+      res.json({
+        data: data,
+        status: true,
+        msg: "",
+        meta: {
+          totalCount: brandCount,
+          ...pagination,
+        },
       });
     } catch (error) {
       console.log(error);

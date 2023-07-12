@@ -21,7 +21,7 @@ class BannerServices {
       if (data) {
         return data;
       } else {
-        throw { status: "Not Found.", msg: "No any banner found." };
+        throw { status: 404, msg: "No any banner found." };
       }
     } catch (error) {
       console.log(error);

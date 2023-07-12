@@ -2,6 +2,7 @@ const auth = require("../../middlewares/auth.middlware");
 const checkPermission = require("../../middlewares/rbac.middleware");
 const uploader = require("../../middlewares/uploader.middleware");
 const brandControllerObj = require("./brands.controller");
+const brandServiceObj = require("./brands.services");
 
 const router = require("express").Router();
 
@@ -13,9 +14,7 @@ const uploadDir = (req, res, next) => {
 
 router
   .route("/")
-  .get((req, res, next) => {
-    res.json({ msg: "I am all brand list (GET Request)" });
-  })
+  .get(brandControllerObj.getAllBrands)
   .post(
     auth,
     checkPermission("admin"),
