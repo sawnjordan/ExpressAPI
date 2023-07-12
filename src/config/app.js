@@ -30,7 +30,7 @@ app.use((err, req, res, next) => {
   }
   let statusCode = err.status || 500;
   let msg = err.msg || "Internal Server Error.";
-  res.status(statusCode).json({ err, data: null, msg: msg, meta: null });
+  res.status(statusCode).json({ data: null, msg: msg, meta: null });
 });
 
 module.exports = app;

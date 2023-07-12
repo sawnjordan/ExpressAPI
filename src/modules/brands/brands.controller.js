@@ -1,3 +1,4 @@
+const bannerServiceObj = require("../banner/banner.services");
 const BrandModel = require("./brands.model");
 const brandServiceObj = require("./brands.services");
 
@@ -45,6 +46,38 @@ class BrandController {
           ...pagination,
         },
       });
+    } catch (error) {
+      console.log(error);
+      next(error);
+    }
+  };
+  updateBrand = async (req, res, next) => {
+    try {
+      let brandId = req.params.id;
+      let brand = await brandServiceObj.getBrandById(brandId);
+      let data = req.body;
+      if (req.file) {
+        data.logo = req.file.filename;
+      } else {
+        data.logo = brand.logo;
+      }
+
+      let validBrandData = brandServiceObj.validateBrandData(data);
+      let updatedBrand = await brandServiceObj.updateBrand(
+        brandId,
+        validBrandData
+      );
+
+      if (updatedBrand) {
+        res.json({
+          data: updatedBrand,
+          status: true,
+          msg: "Brand Updated Successfully.",
+          meta: null,
+        });
+      } else {
+        throw { status: 400, msg: "Failed to update a brand." };
+      }
     } catch (error) {
       console.log(error);
       next(error);

@@ -83,7 +83,7 @@ class BannerController {
         data.image = banner.image;
       }
       // console.log(data);
-      let validBannerData = await bannerServiceObj.validateBannerData(data);
+      let validBannerData = bannerServiceObj.validateBannerData(data);
 
       let updatedBanner = await bannerServiceObj.updateBanner(
         bannerId,
@@ -98,7 +98,7 @@ class BannerController {
           meta: null,
         });
       } else {
-        throw { status: 400, msg: "Failed to create Banner." };
+        throw { status: 400, msg: "Failed to update a Banner." };
       }
     } catch (error) {
       console.log(error);

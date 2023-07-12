@@ -23,16 +23,20 @@ router
     brandControllerObj.createBrand
   );
 
-router.put("/:id", (req, res, next) => {
-  res.json({
-    msg: `I am PUT Request for updating brand with id:${req.params.id} `,
+router
+  .route("/:id")
+  .put(
+    auth,
+    checkPermission("admin"),
+    uploadDir,
+    uploader.single("logo"),
+    brandControllerObj.updateBrand
+  )
+  .delete(auth, checkPermission("admin"), (req, res, next) => {
+    res.json({
+      msg: `I am DELETE Request for deleting brand with id:${req.params.id} `,
+    });
   });
-});
-router.delete("/:id", (req, res, next) => {
-  res.json({
-    msg: `I am DELETE Request for deleting brand with id:${req.params.id} `,
-  });
-});
 router.get("/:id", (req, res, next) => {
   res.json({
     msg: `I am GET Request for getting details of brand with id:${req.params.id} `,

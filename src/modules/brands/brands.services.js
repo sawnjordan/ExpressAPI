@@ -51,6 +51,15 @@ class BrandServices {
       throw error;
     }
   };
+  updateBrand = async (id, data) => {
+    try {
+      return await BrandModel.findByIdAndUpdate(id, { $set: data });
+    } catch (error) {
+      console.log(error);
+      throw error;
+    }
+  };
+
   listBrands = async ({ perPage = 10, page = 1 }) => {
     try {
       let skip = (page - 1) * perPage;
@@ -63,6 +72,19 @@ class BrandServices {
       } else {
         throw { status: 404, msg: "No any brand found." };
       }
+    } catch (error) {
+      console.log(error);
+      throw error;
+    }
+  };
+
+  getBrandById = async (id) => {
+    try {
+      let brand = await BrandModel.findById(id);
+      if (!brand) {
+        throw { status: 404, msg: "Brand doesn't exists." };
+      }
+      return brand;
     } catch (error) {
       console.log(error);
       throw error;
