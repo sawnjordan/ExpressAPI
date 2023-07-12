@@ -40,19 +40,30 @@ class BannerServices {
           })
           .nonempty(),
 
-        image: z.string().nullable(),
-        link: z.string().url(),
+        status: z.string().nonempty(),
+        link: z.string().url().nullable(),
+        image: z.string().nonempty(),
       });
       let response = validateBannerSchema.parse(data);
       // console.log(response);
       return response;
     } catch (error) {
-      console.log(error);
+      // console.log(error);
       let errorBags = {};
       error.errors.map((item) => {
         errorBags[item.path[0]] = item.message;
       });
       throw { status: 400, msg: errorBags };
+    }
+  };
+
+  storeBanner = async (data) => {
+    try {
+      let banner = new BannerModel(data);
+      return await banner.save();
+    } catch (error) {
+      console.log(error);
+      throw error;
     }
   };
 }

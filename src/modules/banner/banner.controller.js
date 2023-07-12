@@ -29,8 +29,21 @@ class BannerController {
 
   createBanner = async (req, res, next) => {
     let data = req.body;
-    data.image = req.file.filename;
-    let validData = await bannerServiceObj.validateBannerData(data);
+    data.image = req.file?.filename;
+    let createdBy = req.authUser._id;
+    let validBannerData = await bannerServiceObj.validateBannerData(data);
+    validBannerData.createdBy = createdBy;
+    let newBanner = await bannerServiceObj.storeBanner(validBannerData);
+
+    if (newBanner) {
+      res.json({
+        data: newBanner,
+        status: true,
+        msg: "Banner created successfully.",
+        meta: null,
+      });
+    }
+
     try {
     } catch (error) {
       console.log(error);

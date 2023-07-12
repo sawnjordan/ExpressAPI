@@ -7,7 +7,7 @@ const bannerControllerObj = require("./banner.controller");
 const router = require("express").Router();
 
 const uploadDir = (req, res, next) => {
-  let dir = "./public/uploads";
+  let dir = "./public/uploads/banner";
   req.uploadDir = dir;
   next();
 };
