@@ -1,10 +1,28 @@
 const { default: slugify } = require("slugify");
-const bannerServiceObj = require("../banner/banner.services");
 const BrandModel = require("./brands.model");
 const brandServiceObj = require("./brands.services");
 // require("slugify");
 
 class BrandController {
+  getBrandForHomePage = async (req, res, next) => {
+    try {
+      let data = await brandServiceObj.getBrandByFilter({
+        status: "active",
+      });
+      res.json({
+        data: data,
+        status: true,
+        msg: "Brand Fetched.",
+        meta: null,
+      });
+    } catch (error) {
+      console.log(error);
+      next({
+        status: 400,
+        msg: error.message ?? "Error fetching brand data.",
+      });
+    }
+  };
   createBrand = async (req, res, next) => {
     try {
       let brandData = req.body;

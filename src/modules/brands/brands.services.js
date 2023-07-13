@@ -100,6 +100,15 @@ class BrandServices {
       throw error;
     }
   };
+
+  getBrandByFilter = async (filter = {}) => {
+    try {
+      return await BrandModel.find(filter).sort({ _id: "desc" }).limit(10);
+    } catch (error) {
+      console.log(error);
+      throw error;
+    }
+  };
 }
 
 const brandServiceObj = new BrandServices();

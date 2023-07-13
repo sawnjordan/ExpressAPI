@@ -3,7 +3,7 @@
 
 const router = require("express").Router(); //mathi ko two line of code is same as this line of code
 const brandRoutes = require("../modules/brands/brands.routes");
-const categoryRoutes = require("../modules/categories/categories.routes");
+const categoryRoutes = require("../modules/categories/category.routes");
 const authRoutes = require("../modules/auth/auth.routes");
 const bannerRoutes = require("../modules/banner/banner.routes");
 const productRoutes = require("../modules/products/products.routes");
@@ -16,7 +16,7 @@ router.use("/banner", bannerRoutes);
 router.use("/brands", brandRoutes);
 router.use("/categories", categoryRoutes);
 router.use("/products", productRoutes);
-router.use("/orders", orderRoutes);
+// router.use("/orders", orderRoutes);
 
 // router.use((req, res, next) => {
 //   console.log("I am always called");
