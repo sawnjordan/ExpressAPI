@@ -1,4 +1,4 @@
-const { default: slugify } = require("slugify");
+const slugify = require("slugify");
 const BrandModel = require("./brands.model");
 const brandServiceObj = require("./brands.services");
 // require("slugify");
@@ -38,6 +38,7 @@ class BrandController {
       let validBrandData = brandServiceObj.validateBrandData(brandData);
       validBrandData.createdBy = createdBy;
 
+      //slugify the name
       validBrandData.slug = slugify(validBrandData.name, {
         lower: true,
       });
@@ -69,7 +70,7 @@ class BrandController {
       res.json({
         data: data,
         status: true,
-        msg: "",
+        msg: "Brand Fetched.",
         meta: {
           totalCount: brandCount,
           ...pagination,
