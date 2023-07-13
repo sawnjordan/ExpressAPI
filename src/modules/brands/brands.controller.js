@@ -1,6 +1,8 @@
+const { default: slugify } = require("slugify");
 const bannerServiceObj = require("../banner/banner.services");
 const BrandModel = require("./brands.model");
 const brandServiceObj = require("./brands.services");
+// require("slugify");
 
 class BrandController {
   createBrand = async (req, res, next) => {
@@ -8,12 +10,21 @@ class BrandController {
       let brandData = req.body;
       let { brandSlug } = req.body;
       //   let isSlugExists = await brandServiceObj.checkIfSlugExists(brandSlug);
-      brandData.logo = req.file?.filename;
-      //   console.log(brandData);
+      // brandData.logo = req.file?.filename;
+      if (req.file) {
+        brandData.logo = req.file.filename;
+      }
+
+      // console.log(brandData);
       let createdBy = req.authUser._id;
       let validBrandData = brandServiceObj.validateBrandData(brandData);
       validBrandData.createdBy = createdBy;
-      //   console.log(validBrandData);
+
+      validBrandData.slug = slugify(validBrandData.name, {
+        lower: true,
+      });
+      // console.log(validBrandData);
+
       let newBrand = await brandServiceObj.createBrand(validBrandData);
       if (!newBrand) {
         throw { status: 500, msg: "Error while creating brand." };

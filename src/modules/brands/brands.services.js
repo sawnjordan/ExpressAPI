@@ -25,7 +25,6 @@ class BrandServices {
           .nonempty(),
 
         status: z.string().nonempty(),
-        slug: z.string().nonempty(),
         logo: z.string().nullable(),
       });
       let response = validateBrandSchema.parse(data);
