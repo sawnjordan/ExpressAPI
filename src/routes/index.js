@@ -14,7 +14,7 @@ const orderRoutes = require("../modules/orders/order.routes");
 router.use("/auth", authRoutes);
 router.use("/banner", bannerRoutes);
 router.use("/brands", brandRoutes);
-router.use("/categories", categoryRoutes);
+router.use("/category", categoryRoutes);
 router.use("/products", productRoutes);
 // router.use("/orders", orderRoutes);
 

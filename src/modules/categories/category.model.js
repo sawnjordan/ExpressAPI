@@ -17,6 +17,7 @@ const CategorySchema = new mongoose.Schema(
       ref: "Category",
       require: false,
     },
+    image: String,
     status: {
       type: String,
       enum: ["active", "inactive"],

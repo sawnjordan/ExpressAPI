@@ -12,7 +12,7 @@ const uploadDir = (req, res, next) => {
   next();
 };
 
-// router.get("/home", categoryControllerObj.getCategoryForHomePage);
+router.get("/home", categoryControllerObj.getCategoryForHomePage);
 
 router
   .route("/")

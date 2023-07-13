@@ -1,5 +1,6 @@
 const CategoryModel = require("./category.model");
 const categoryServiceObj = require("./category.services");
+const slugify = require("slugify");
 
 class CategoryController {
   getAllCategories = async (req, res, next) => {
@@ -51,10 +52,19 @@ class CategoryController {
   createCategory = async (req, res, next) => {
     try {
       let data = req.body;
-      data.image = req.file?.filename;
+      if (req.file) {
+        data.image = req.file.filename;
+      }
       let createdBy = req.authUser._id;
+      if (!data.parent || data.parent === "null" || data.parent === null) {
+        data.parent = null;
+      }
       let validCategoryData = categoryServiceObj.validateCategoryData(data);
       validCategoryData.createdBy = createdBy;
+      //slugify the name
+      validCategoryData.slug = slugify(validCategoryData.name, {
+        lower: true,
+      });
       let newCategory = await categoryServiceObj.storeCategory(
         validCategoryData
       );
@@ -83,6 +93,10 @@ class CategoryController {
         data.image = req.file.filename;
       } else {
         data.image = category.image;
+      }
+
+      if (!data.parent || data.parent === "null" || data.parent === null) {
+        data.parent = null;
       }
       // console.log(data);
       let validCategoryData = categoryServiceObj.validateCategoryData(data);

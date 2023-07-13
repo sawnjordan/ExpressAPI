@@ -20,6 +20,22 @@ app.use("/api/v1", router);
 //this is express global error handling middleware. The first parameter is always err.
 app.use((err, req, res, next) => {
   console.log(err);
+  if (err.name === "ValidationError") {
+    const validationErrors = err.errors;
+
+    const formattedErrors = {};
+    for (let field in validationErrors) {
+      formattedErrors[field] = {
+        message: validationErrors[field].message,
+        path: validationErrors[field].path,
+      };
+    }
+
+    res.status(400).json({
+      error: formattedErrors,
+      msg: err._message,
+    });
+  }
   if (err.code === 11000 && err.keyPattern && err.keyValue) {
     const fieldName = Object.keys(err.keyPattern)[0];
     const fieldValue = err.keyValue[fieldName];
