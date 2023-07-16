@@ -1,6 +1,4 @@
-const ProductModel = require("./products.model");
 const productServiceObj = require("./products.services");
-const productStoreTransformerObj = require("./product.transform");
 const ProductStoreTransformer = require("./product.transform");
 const { default: slugify } = require("slugify");
 

@@ -2,7 +2,6 @@ const auth = require("../../middlewares/auth.middlware");
 const checkPermission = require("../../middlewares/rbac.middleware");
 const uploader = require("../../middlewares/uploader.middleware");
 const productControllerObj = require("./products.controller");
-const productServiceObj = require("./products.services");
 
 const router = require("express").Router();
 
@@ -37,10 +36,5 @@ router
     productControllerObj.updateProduct
   )
   .delete(auth, checkPermission("admin"), productControllerObj.deleteProduct);
-// router.get("/:id", (req, res, next) => {
-//   res.json({
-//     msg: `I am GET Request for getting details of product with id:${req.params.id} `,
-//   });
-// });
 
 module.exports = router;

@@ -1,6 +1,5 @@
 const { z } = require("zod");
 const ProductModel = require("./products.model");
-const { default: slugify } = require("slugify");
 
 class ProductServices {
   _slug;
