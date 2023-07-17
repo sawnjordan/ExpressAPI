@@ -98,11 +98,11 @@ class AuthController {
         if (!password || password !== confirmPassword || password.length < 8) {
           throw {
             status: 400,
-            msg: "Password must be of atlease 8 characters and should match Re-password",
+            msg: "Password must be of atleast 8 characters and should match Re-password.",
           };
         }
         const hashedPassword = bcrypt.hashSync(password, 10);
-        console.log(hashedPassword);
+        // console.log(hashedPassword);
         let userBeforeUpdate = await this.authService.updateUser(
           {
             password: hashedPassword,
@@ -114,7 +114,7 @@ class AuthController {
         res.json({
           status: true,
           data: userBeforeUpdate,
-          msg: "User has been activated successfully",
+          msg: "User has been activated successfully.",
           meta: null,
         });
       }
