@@ -61,6 +61,7 @@ class Admin extends User {
     console.log("I am in admin.");
   }
 }
+asdfasdf;
 
 const adminObj = new Admin();
 //constructor override garni tarika
