@@ -1,5 +1,5 @@
 const { z } = require("zod");
-const MailService = require("../../../services/mail.service");
+const MailService = require("../../services/mail.service");
 const UserModel = require("./user.model");
 class AuthService {
   mailService;
@@ -43,7 +43,7 @@ class AuthService {
   sendActivationEmail = async (to, name, token) => {
     try {
       this.mailService = new MailService();
-      let url = `http://localhost:3005/activate/${token}`;
+      let url = `http://localhost:5173/activate/${token}`;
       this.mailService.setMessage({
         to: to,
         sub: "Activate your Account!",

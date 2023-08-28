@@ -2,9 +2,16 @@ const express = require("express");
 const router = require("../routes");
 const cookieParser = require("cookie-parser");
 const mongodbInit = require("./mongo.config");
+const cors = require("cors");
 
 const app = express();
 mongodbInit();
+
+app.use(
+  cors({
+    origin: "http://localhost:5173",
+  })
+);
 
 //if your content type is application/json us this middleware
 app.use(express.json());
