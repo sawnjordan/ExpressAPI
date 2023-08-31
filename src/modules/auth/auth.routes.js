@@ -15,7 +15,7 @@ const auth = require("../../middlewares/auth.middlware");
 //http://domain/verify-token/token
 
 const uploadDir = (req, res, next) => {
-  let dir = "./public/users";
+  let dir = "./public/uploads/users";
   req.uploadDir = dir;
   next();
 };
