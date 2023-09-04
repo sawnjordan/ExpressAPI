@@ -131,6 +131,7 @@ class AuthController {
         throw { status: 400, msg: "Credentials Required." };
       }
       let user = await this.authService.getUserByFilter({ email });
+      console.log(user);
       if (!user) {
         throw { status: 404, msg: "User doesn't exists." };
       } else {
@@ -164,17 +165,25 @@ class AuthController {
             // console.log(personalAccessToken);
 
             let storedPat = await patServiceObj.storeInDB(patData);
-            console.log(storedPat);
+            // console.log(storedPat);
 
-            user = await this.authService.getUserByFilter(
-              { email },
-              "-password"
-            );
+            // user = await this.authService.getUserByFilter(
+            //   { email },
+            //   "-password"
+            // );
             // console.log("first", user);
             // delete user.password;
             // console.log("second", user);
             res.json({
-              data: { accessToken, refreshToken },
+              data: {
+                accessToken,
+                refreshToken,
+                userDetails: {
+                  id: user._id,
+                  name: user?.name,
+                  role: user?.role,
+                },
+              },
               status: true,
               msg: "You are logged in.",
               meta: null,
@@ -212,8 +221,19 @@ class AuthController {
     });
   };
 
-  logoutUser = (req, res, next) => {
-    res.json({ msg: "This is POST request to logout." });
+  logoutUser = async (req, res, next) => {
+    try {
+      let token = req.headers["authorization"];
+      token = token.split(" ")[1];
+      let deletePat = await patServiceObj.deletePAT(token);
+      res.json({
+        status: true,
+        data: deletePat,
+        msg: "Successfully logged out.",
+      });
+    } catch (error) {
+      next(error);
+    }
   };
 
   refreshToken = async (req, res, next) => {

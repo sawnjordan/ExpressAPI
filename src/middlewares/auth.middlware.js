@@ -45,7 +45,7 @@ const auth = async (req, res, next) => {
     if (error instanceof jwt.TokenExpiredError) {
       msg = error.message;
     }
-    next({ status: 401, msg: msg ?? "Invalid Token" });
+    next(error);
   }
 };
 

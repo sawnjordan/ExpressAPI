@@ -35,10 +35,20 @@ class PersonalAccessTokenService {
       if (data) {
         return data;
       } else {
-        throw { status: 400, msg: "Token Query Error / No PAT found." };
+        throw { status: 401, msg: "Token Query Error / No PAT found." };
       }
     } catch (error) {
       console.log(error);
+      throw error;
+    }
+  };
+  deletePAT = async (token) => {
+    try {
+      let response = await PersonalAccessTokenModel.deleteOne({
+        accessToken: token,
+      });
+      return response;
+    } catch (error) {
       throw error;
     }
   };

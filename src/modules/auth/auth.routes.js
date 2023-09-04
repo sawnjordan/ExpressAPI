@@ -37,8 +37,8 @@ router.get("/me", auth, authCtrl.getLoggedInUserProfile);
 
 router.get("/refresh-token", auth, authCtrl.refreshToken);
 
-router.put("/me/:id", authCtrl.editProfile);
+router.put("/me/:id", auth, authCtrl.editProfile);
 
-router.post("/logout", authCtrl.logoutUser);
+router.post("/logout", auth, authCtrl.logoutUser);
 
 module.exports = router;

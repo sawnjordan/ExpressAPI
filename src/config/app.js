@@ -3,6 +3,7 @@ const router = require("../routes");
 const cookieParser = require("cookie-parser");
 const mongodbInit = require("./mongo.config");
 const cors = require("cors");
+const { TokenExpiredError } = require("jsonwebtoken");
 
 const app = express();
 mongodbInit();
@@ -58,6 +59,13 @@ app.use((err, req, res, next) => {
       status: 401,
       // err: err,
       msg: `Invalid value ${err.value} for field: ${err.path}`,
+    });
+  }
+
+  if (err instanceof TokenExpiredError) {
+    return res.status(401).json({
+      status: 401,
+      msg: "Token Expired.",
     });
   }
 
