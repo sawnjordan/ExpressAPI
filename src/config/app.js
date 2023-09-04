@@ -3,7 +3,7 @@ const router = require("../routes");
 const cookieParser = require("cookie-parser");
 const mongodbInit = require("./mongo.config");
 const cors = require("cors");
-const { TokenExpiredError } = require("jsonwebtoken");
+// const { TokenExpiredError } = require("jsonwebtoken");
 
 const app = express();
 mongodbInit();
@@ -62,12 +62,12 @@ app.use((err, req, res, next) => {
     });
   }
 
-  if (err instanceof TokenExpiredError) {
-    return res.status(401).json({
-      status: 401,
-      msg: "Token Expired.",
-    });
-  }
+  // if (err instanceof TokenExpiredError) {
+  //   return res.status(401).json({
+  //     status: 401,
+  //     msg: "Token Expired.",
+  //   });
+  // }
 
   let statusCode = err.status || 500;
   let msg = err.msg || "Internal Server Error.";
