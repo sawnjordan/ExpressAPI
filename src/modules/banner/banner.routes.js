@@ -34,5 +34,6 @@ router
     uploader.single("image"),
     bannerControllerObj.updateBanner
   )
+  .get(auth, checkPermission("admin"), bannerControllerObj.getBannerById)
   .delete(auth, checkPermission("admin"), bannerControllerObj.deleteBanner);
 module.exports = router;

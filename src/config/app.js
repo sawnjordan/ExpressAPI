@@ -25,7 +25,7 @@ app.use(cookieParser());
 
 app.use("/api/v1", router);
 
-app.use("/assets", express.static(process.cwd() + "/public/"));
+app.use("/assets", express.static(process.cwd() + "/public/uploads"));
 //this is express global error handling middleware. The first parameter is always err.
 app.use((err, req, res, next) => {
   console.log(err);

@@ -120,6 +120,22 @@ class BannerController {
       next(error);
     }
   };
+
+  getBannerById = async (req, res, next) => {
+    try {
+      let bannerId = req.params.id;
+      let banner = await bannerServiceObj.getBannerById(bannerId);
+      res.json({
+        data: banner,
+        status: true,
+        msg: "Banner Fetched Successfully",
+        meta: null,
+      });
+    } catch (error) {
+      console.log(error);
+      next(error);
+    }
+  };
 }
 
 const bannerControllerObj = new BannerController();

@@ -142,7 +142,7 @@ class AuthController {
               { id: user._id },
               process.env.JWT_SECRET_KEY,
               {
-                expiresIn: "1h",
+                expiresIn: "2h",
               }
             );
             let refreshToken = jwt.sign(
@@ -238,9 +238,11 @@ class AuthController {
 
   refreshToken = async (req, res, next) => {
     try {
+      // console.log(req);
       let id = req.authUser.id;
+      const authUser = req.authUser;
       let accessToken = jwt.sign({ id: id }, process.env.JWT_SECRET_KEY, {
-        expiresIn: "1h",
+        expiresIn: "2h",
       });
       let refreshToken = req.headers["authorization"].split(" ").pop();
       // console.log(refreshToken);
@@ -258,7 +260,15 @@ class AuthController {
       );
       // console.log(patResponse);
       res.json({
-        data: patResponse.accessToken,
+        data: {
+          accessToken: patResponse.accessToken,
+          refreshToken: patResponse.refreshToken,
+          userDetails: {
+            id: authUser._id,
+            name: authUser.name,
+            role: authUser.role,
+          },
+        },
         status: true,
         msg: "Token Refreshed.",
         meta: null,
