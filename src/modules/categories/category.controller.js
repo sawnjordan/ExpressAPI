@@ -136,6 +136,22 @@ class CategoryController {
       next(error);
     }
   };
+
+  getCategoryById = async (req, res, next) => {
+    try {
+      let categoryId = req.params.id;
+      let cat = await categoryServiceObj.getCategoryById(categoryId);
+      res.json({
+        data: cat,
+        status: true,
+        msg: "Category Fetched Successfully",
+        meta: null,
+      });
+    } catch (error) {
+      console.log(error);
+      next(error);
+    }
+  };
 }
 
 const categoryControllerObj = new CategoryController();

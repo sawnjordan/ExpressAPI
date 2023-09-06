@@ -36,6 +36,7 @@ router
     uploader.single("logo"),
     brandControllerObj.updateBrand
   )
+  .get(auth, checkPermission("admin"), brandControllerObj.getBrandById)
   .delete(auth, checkPermission("admin"), brandControllerObj.deleteBrand);
 // router.get("/:id", (req, res, next) => {
 //   res.json({

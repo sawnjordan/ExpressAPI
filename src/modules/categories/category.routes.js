@@ -34,5 +34,6 @@ router
     uploader.single("image"),
     categoryControllerObj.updateCategory
   )
+  .get(auth, checkPermission("admin"), categoryControllerObj.getCategoryById)
   .delete(auth, checkPermission("admin"), categoryControllerObj.deleteCategory);
 module.exports = router;

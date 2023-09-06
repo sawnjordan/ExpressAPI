@@ -129,6 +129,22 @@ class BrandController {
       next(error);
     }
   };
+
+  getBrandById = async (req, res, next) => {
+    try {
+      const brandId = req.params.id;
+      let brand = await brandServiceObj.getBrandById(brandId);
+      res.json({
+        data: brand,
+        status: true,
+        msg: "Brand Fetched Successfully",
+        meta: null,
+      });
+    } catch (error) {
+      console.log(error);
+      next(error);
+    }
+  };
 }
 const brandControllerObj = new BrandController();
 module.exports = brandControllerObj;
