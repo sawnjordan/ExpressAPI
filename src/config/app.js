@@ -45,6 +45,7 @@ app.use((err, req, res, next) => {
       msg: err._message,
     });
   }
+
   if (err.code === 11000 && err.keyPattern && err.keyValue) {
     const fieldName = Object.keys(err.keyPattern)[0];
     const fieldValue = err.keyValue[fieldName];

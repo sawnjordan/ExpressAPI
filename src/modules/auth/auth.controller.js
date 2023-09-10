@@ -127,12 +127,13 @@ class AuthController {
   loginUser = async (req, res, next) => {
     try {
       let { email, password } = req.body;
+      // console.log(email, password);
       if (!email || !password) {
         throw { status: 400, msg: "Credentials Required." };
       }
       let user = await this.authService.getUserByFilter({ email });
       console.log(user);
-      if (!user) {
+      if (!user || user.length === 0) {
         throw { status: 404, msg: "User doesn't exists." };
       } else {
         user = user[0];
