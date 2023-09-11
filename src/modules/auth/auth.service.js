@@ -25,7 +25,10 @@ class AuthService {
           message: "The Phone number must contain atleast 7 numbers.",
         }),
         image: z.string().nullable(),
-        role: z.string().nullable(),
+        role: z
+          .string()
+          .regex(/seller|customer/)
+          .nonempty(),
       });
       let response = validateSchema.parse(data);
       // console.log(response);
