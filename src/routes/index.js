@@ -7,6 +7,7 @@ const categoryRoutes = require("../modules/categories/category.routes");
 const authRoutes = require("../modules/auth/auth.routes");
 const bannerRoutes = require("../modules/banner/banner.routes");
 const productRoutes = require("../modules/products/products.routes");
+const userRoutes = require("../modules/user/user.routes");
 const orderRoutes = require("../modules/orders/order.routes");
 
 //TODO: Route mount
@@ -16,6 +17,7 @@ router.use("/banner", bannerRoutes);
 router.use("/brands", brandRoutes);
 router.use("/category", categoryRoutes);
 router.use("/products", productRoutes);
+router.use("/user", userRoutes);
 // router.use("/orders", orderRoutes);
 
 // router.use((req, res, next) => {
