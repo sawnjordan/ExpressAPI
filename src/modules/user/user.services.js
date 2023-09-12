@@ -43,10 +43,11 @@ class UserServices {
     }
   };
 
-  listUsers = async ({ perPage = 10, page = 1 }) => {
+  listUsers = async ({ perPage = 10, page = 1 }, filter = {}) => {
     try {
+      // console.log(filter);
       let skip = (page - 1) * perPage;
-      let data = await UserModel.find()
+      let data = await UserModel.find(filter)
         .sort({ _id: "desc" })
         .limit(perPage)
         .skip(skip);

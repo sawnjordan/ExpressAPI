@@ -6,9 +6,16 @@ const userServiceObj = require("./user.services");
 class UserController {
   getAllUsers = async (req, res, next) => {
     try {
+      let filter = {};
+      if (req.query.type) {
+        filter = {
+          role: req.query.type,
+        };
+      }
+      // console.log(filter);
       let { perPage, page } = req.query;
       let pagination = { perPage: parseInt(perPage), page: parseInt(page) };
-      let data = await userServiceObj.listUsers(pagination);
+      let data = await userServiceObj.listUsers(pagination, filter);
       let userCount = await userServiceObj.getCount();
       res.json({
         data: data,
