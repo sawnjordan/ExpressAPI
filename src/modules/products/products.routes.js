@@ -17,7 +17,7 @@ router.get("/home", productControllerObj.getProductForHomePage);
 
 router
   .route("/")
-  .get(productControllerObj.getAllProducts)
+  .get(auth, checkPermission("admin"), productControllerObj.getAllProducts)
   .post(
     auth,
     checkPermission("admin"),
