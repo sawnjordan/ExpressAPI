@@ -35,6 +35,7 @@ router
     uploader.array("images"),
     productControllerObj.updateProduct
   )
+  .get(auth, checkPermission("admin"), productControllerObj.getProductById)
   .delete(auth, checkPermission("admin"), productControllerObj.deleteProduct);
 
 module.exports = router;

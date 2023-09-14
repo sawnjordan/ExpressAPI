@@ -66,7 +66,7 @@ class ProductController {
       res.json({
         data: data,
         status: true,
-        msg: "Product Fetched.",
+        msg: "Products Fetched.",
         meta: {
           totalCount: productCount,
           ...pagination,
@@ -77,18 +77,33 @@ class ProductController {
       next(error);
     }
   };
+
+  getProductById = async (req, res, next) => {
+    try {
+      let id = req.params.id;
+      let product = await productServiceObj.getProductById(id);
+      res.json({
+        data: product,
+        status: true,
+        msg: "Product Fetched.",
+        meta: null,
+      });
+    } catch (error) {
+      console.log(error);
+      next(error);
+    }
+  };
+
   updateProduct = async (req, res, next) => {
     try {
+      let productData = new ProductStoreTransformer(req).transformData();
       let productId = req.params.id;
       let product = await productServiceObj.getProductById(productId);
-      let data = req.body;
-      if (req.file) {
-        data.logo = req.file.filename;
-      } else {
-        data.logo = product.logo;
+      if (productData.images.length === 0) {
+        productData.images = product.images;
       }
 
-      let validProductData = productServiceObj.validateProductData(data);
+      let validProductData = productServiceObj.validateProductData(productData);
       let updatedProduct = await productServiceObj.updateProduct(
         productId,
         validProductData
