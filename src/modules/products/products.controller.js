@@ -1,6 +1,9 @@
 const productServiceObj = require("./products.services");
 const ProductStoreTransformer = require("./product.transform");
 const { default: slugify } = require("slugify");
+const path = require("path");
+const fs = require("fs");
+const { error } = require("console");
 
 class ProductController {
   getProductForHomePage = async (req, res, next) => {
@@ -143,8 +146,22 @@ class ProductController {
 
   deleteImage = async (req, res, next) => {
     try {
-      let productId = req.params.productId;
       let imgName = req.params.imgName;
+      let dir = "./public/uploads/products";
+      const imgPath = path.join(dir, imgName);
+      if (fs.existsSync(imgPath)) {
+        fs.unlink(imgPath, (err) => {
+          if (err) {
+            console.log(error);
+            next(err);
+          } else {
+          }
+        });
+      } else {
+        console.log("Image not found!!");
+      }
+
+      let productId = req.params.productId;
 
       let productDetails = await productServiceObj.getProductById(productId);
       let images = productDetails.images;
