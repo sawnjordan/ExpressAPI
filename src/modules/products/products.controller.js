@@ -140,6 +140,27 @@ class ProductController {
       next(error);
     }
   };
+
+  deleteImage = async (req, res, next) => {
+    try {
+      let productId = req.params.productId;
+      let imgName = req.params.imgName;
+
+      let productDetails = await productServiceObj.getProductById(productId);
+      let images = productDetails.images;
+      let updatedImage = images.filter((img) => img !== imgName);
+      productDetails.images = updatedImage;
+      await productDetails.save();
+      res.json({
+        status: true,
+        msg: "Image deleted.",
+        data: productDetails,
+      });
+    } catch (error) {
+      console.log(error);
+      next(error);
+    }
+  };
 }
 const productControllerObj = new ProductController();
 module.exports = productControllerObj;

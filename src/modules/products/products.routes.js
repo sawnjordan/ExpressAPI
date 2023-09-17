@@ -37,5 +37,11 @@ router
   )
   .get(auth, checkPermission("admin"), productControllerObj.getProductById)
   .delete(auth, checkPermission("admin"), productControllerObj.deleteProduct);
+router.delete(
+  "/:productId/:imgName",
+  auth,
+  checkPermission("admin"),
+  productControllerObj.deleteImage
+);
 
 module.exports = router;
