@@ -146,8 +146,23 @@ class ProductController {
 
   deleteImage = async (req, res, next) => {
     try {
+      console.log(req.originalUrl);
+      let dir = "./public/annon";
+      const originalURL = req.originalUrl;
+      // console.log(typeof originalURL);
+      if (originalURL.includes("/products/")) {
+        dir = "./public/uploads/products";
+      } else if (originalURL.includes("/brands/")) {
+        dir = "./public/uploads/brands";
+      } else if (originalURL.includes("/category/")) {
+        dir = "./public/uploads/category";
+      } else if (originalURL.includes("/user/")) {
+        dir = "./public/uploads/users";
+      } else if (originalURL.includes("/banner/")) {
+        dir = "./public/uploads/banner";
+      }
+      // console.log(dir);
       let imgName = req.params.imgName;
-      let dir = "./public/uploads/products";
       const imgPath = path.join(dir, imgName);
       if (fs.existsSync(imgPath)) {
         fs.unlink(imgPath, (err) => {
