@@ -19,6 +19,13 @@ class ProductStoreTransformer {
     data.costPrice = Number(data.costPrice);
     data.price = Number(data.price);
     data.discount = Number(data.discount);
+    if (data?.discount !== 0) {
+      data.afterDiscount = Number(
+        data.price - (data.discount / 100) * data.price
+      );
+    } else {
+      data.afterDiscount = null;
+    }
     if (
       !this._data.categories ||
       this._data.categories === "null" ||
@@ -44,6 +51,7 @@ class ProductStoreTransformer {
     ) {
       data.sellerId = null;
     }
+    console.log(data);
     return data;
   };
 }

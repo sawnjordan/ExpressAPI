@@ -34,6 +34,7 @@ class ProductServices {
         status: z.string().nonempty(),
         images: z.array(z.string()).nullable(),
         sellerId: z.string().nullable(),
+        afterDiscount: z.number().nullable(),
       });
       let response = validateProductSchema.parse(data);
       // console.log(response);

@@ -43,8 +43,6 @@ const ProductSchema = new mongoose.Schema(
     },
     afterDiscount: {
       type: Number,
-      require: true,
-      min: 1,
     },
     status: {
       type: String,
