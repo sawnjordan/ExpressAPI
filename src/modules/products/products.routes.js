@@ -43,5 +43,6 @@ router.delete(
   checkPermission("admin"),
   productControllerObj.deleteImage
 );
+router.get("/slug/:productSlug", productControllerObj.getProductBySlug);
 
 module.exports = router;

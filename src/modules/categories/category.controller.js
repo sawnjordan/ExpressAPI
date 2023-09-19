@@ -1,7 +1,8 @@
+const productServiceObj = require("../products/products.services");
 const CategoryModel = require("./category.model");
 const categoryServiceObj = require("./category.services");
 const slugify = require("slugify");
-
+const mongoose = require("mongoose");
 class CategoryController {
   getAllCategories = async (req, res, next) => {
     try {
@@ -149,6 +150,39 @@ class CategoryController {
       });
     } catch (error) {
       console.log(error);
+      next(error);
+    }
+  };
+  getProductWithSlug = async (req, res, next) => {
+    try {
+      let categorySlug = req.params.categorySlug;
+      let catdata = await categoryServiceObj.getCategoryByFilter({
+        slug: categorySlug,
+      });
+      // console.log(catdata[0].name);
+      if (catdata.length === 0) {
+        return res
+          .status(404)
+          .json({ success: true, msg: "Category Not Found" });
+      }
+      let catId = catdata[0]._id;
+      let products = await productServiceObj.getProductByFilter({
+        categories: new mongoose.Types.ObjectId(catId),
+      });
+
+      if (products.length === 0) {
+        return res
+          .status(404)
+          .json({ success: true, msg: "Products not found." });
+      }
+      // console.log(products);
+      res.json({
+        data: { products, catName: catdata[0].name },
+        status: true,
+        msg: "Products Fetched Successfully",
+        meta: null,
+      });
+    } catch (error) {
       next(error);
     }
   };

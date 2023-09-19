@@ -193,6 +193,39 @@ class ProductController {
       next(error);
     }
   };
+
+  getProductBySlug = async (req, res, next) => {
+    try {
+      let productSlug = req.params.productSlug;
+      let productData = await productServiceObj.getProductByFilter({
+        slug: productSlug,
+      });
+      // console.log(productData[0].name);
+      if (productData.length === 0) {
+        return res
+          .status(404)
+          .json({ success: true, msg: "Product detail Not Found" });
+      }
+      let productId = productData[0]._id;
+      let product = await productServiceObj.getProductById(productId);
+      // console.log(product);
+
+      if (!product) {
+        return res
+          .status(404)
+          .json({ success: true, msg: "Products not found." });
+      }
+      res.json({
+        data: product,
+        status: true,
+        msg: "Product Fetched Successfully",
+        meta: null,
+      });
+    } catch (error) {
+      console.log(error);
+      next(error);
+    }
+  };
 }
 const productControllerObj = new ProductController();
 module.exports = productControllerObj;

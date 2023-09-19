@@ -36,4 +36,5 @@ router
   )
   .get(auth, checkPermission("admin"), categoryControllerObj.getCategoryById)
   .delete(auth, checkPermission("admin"), categoryControllerObj.deleteCategory);
+router.get("/product/:categorySlug", categoryControllerObj.getProductWithSlug);
 module.exports = router;
