@@ -28,6 +28,8 @@ router
 
 router.get("/search", productControllerObj.getSearchResult);
 
+router.get("/slug/:productSlug", productControllerObj.getProductBySlug);
+
 router
   .route("/:id")
   .put(
@@ -45,6 +47,5 @@ router.delete(
   checkPermission("admin"),
   productControllerObj.deleteImage
 );
-router.get("/slug/:productSlug", productControllerObj.getProductBySlug);
 
 module.exports = router;

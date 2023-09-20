@@ -1,6 +1,8 @@
 const slugify = require("slugify");
 const BrandModel = require("./brands.model");
 const brandServiceObj = require("./brands.services");
+const productServiceObj = require("../products/products.services");
+const { default: mongoose } = require("mongoose");
 // require("slugify");
 
 class BrandController {
@@ -138,6 +140,35 @@ class BrandController {
         data: brand,
         status: true,
         msg: "Brand Fetched Successfully",
+        meta: null,
+      });
+    } catch (error) {
+      console.log(error);
+      next(error);
+    }
+  };
+  getProductByBrandId = async (req, res, next) => {
+    try {
+      let brandId = req.params.brandId;
+      const brandData = await brandServiceObj.getBrandById(brandId);
+      if (brandData.length === 0) {
+        return res.status(404).json({ success: true, msg: "Brand not found." });
+      }
+      const brandName = brandData?.name;
+      let product = await productServiceObj.getProductByFilter({
+        brand: new mongoose.Types.ObjectId(brandId),
+      });
+
+      if (product.length === 0) {
+        return res
+          .status(404)
+          .json({ success: true, msg: "Products not found." });
+      }
+      // console.log(product);
+      res.json({
+        data: { product, brandName },
+        status: true,
+        msg: "Product Fetched Successfully",
         meta: null,
       });
     } catch (error) {

@@ -14,7 +14,7 @@ const uploadDir = (req, res, next) => {
 
 router.get("/home", brandControllerObj.getBrandForHomePage);
 
-// router.get("/:slug", brandControllerObj.getProductByBrandSlug);
+router.get("/product/:brandId", brandControllerObj.getProductByBrandId);
 
 router
   .route("/")

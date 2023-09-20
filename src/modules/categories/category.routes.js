@@ -14,6 +14,8 @@ const uploadDir = (req, res, next) => {
 
 router.get("/home", categoryControllerObj.getCategoryForHomePage);
 
+router.get("/product/:categorySlug", categoryControllerObj.getProductWithSlug);
+
 router
   .route("/")
   .get(auth, checkPermission("admin"), categoryControllerObj.getAllCategories)
@@ -36,5 +38,4 @@ router
   )
   .get(auth, checkPermission("admin"), categoryControllerObj.getCategoryById)
   .delete(auth, checkPermission("admin"), categoryControllerObj.deleteCategory);
-router.get("/product/:categorySlug", categoryControllerObj.getProductWithSlug);
 module.exports = router;
