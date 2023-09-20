@@ -97,6 +97,33 @@ class ProductController {
     }
   };
 
+  getSearchResult = async (req, res, next) => {
+    try {
+      let keyword = req.query?.keyword;
+      // console.log(keyword);
+
+      if (keyword === undefined) {
+        return res.status(404).json({
+          status: false,
+          msg: "Query string doesn't match.",
+        });
+      }
+
+      let productResults = await productServiceObj.getProductByFilter({
+        name: new RegExp(keyword, "i"),
+      });
+      res.json({
+        data: productResults,
+        status: true,
+        msg: "Product Fetched.",
+        meta: null,
+      });
+    } catch (error) {
+      console.log(error);
+      next(error);
+    }
+  };
+
   updateProduct = async (req, res, next) => {
     try {
       let productData = new ProductStoreTransformer(req).transformData();

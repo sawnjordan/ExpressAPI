@@ -18,7 +18,7 @@ router.get("/home", brandControllerObj.getBrandForHomePage);
 
 router
   .route("/")
-  .get(brandControllerObj.getAllBrands)
+  .get(auth, checkPermission("admin"), brandControllerObj.getAllBrands)
   .post(
     auth,
     checkPermission("admin"),
