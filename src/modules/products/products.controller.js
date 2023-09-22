@@ -36,7 +36,10 @@ class ProductController {
       validProductData.createdBy = createdBy;
 
       //slugify the name
-      let slug = slugify(validProductData.name, { lower: true });
+      let slug = slugify(validProductData.name, {
+        lower: true,
+        remove: /[*+~.()'"!:@]/g,
+      });
 
       await productServiceObj.getUniqueSlug(slug);
       validProductData.slug = productServiceObj._slug;
