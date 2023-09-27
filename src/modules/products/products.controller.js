@@ -288,6 +288,7 @@ class ProductController {
             name: item.name,
             image: item.images[0],
             price: item?.afterDiscount ?? item.price,
+            prodDis: item.discount ?? 0,
             qty: 0,
             amt: 0,
           };
@@ -296,11 +297,13 @@ class ProductController {
             if (item._id.equals(cart.productId)) {
               qty = cart.qty;
             }
-            singleItem.qty = cart.qty;
+            singleItem.qty = qty;
           });
           singleItem.amt = singleItem.qty * singleItem.price;
           cartDetails.push(singleItem);
           formattedData.subTotal += singleItem.amt;
+          singleItem.price = item.price;
+          singleItem.afterDiscount = item?.afterDiscount ?? null;
         });
         // console.log(cartDetails);
         formattedData.subTotal = Number(formattedData.subTotal.toFixed(2));
