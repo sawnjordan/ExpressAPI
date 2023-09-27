@@ -315,7 +315,7 @@ class ProductController {
         formattedData.totalAmt = Number(formattedData.totalAmt.toFixed(2));
 
         if (formattedData.totalAmt <= 200000) {
-          formattedData.shippingFee = Number(0.5 * formattedData.totalAmt);
+          formattedData.shippingFee = Number(0.01 * formattedData.totalAmt);
         } else {
           formattedData.shippingFee = 0;
         }
