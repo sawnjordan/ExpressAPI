@@ -256,6 +256,77 @@ class ProductController {
       next(error);
     }
   };
+
+  getCartDetails = async (req, res, next) => {
+    try {
+      let cartItems = req.body;
+      if (!cartItems) {
+        next({ status: 400, msg: "Your cart is empty!" });
+      } else {
+        // console.log(cartItems);
+        let cartDetails = [];
+        let formattedData = {
+          details: null,
+          subTotal: 0,
+          discount: 0,
+          tax: 0,
+          totalAmt: 0,
+          shippingFee: 0,
+        };
+        let productIds = cartItems.map((item) => {
+          return item.productId;
+        });
+        // console.log(productIds);
+
+        let productDetails = await productServiceObj.getProductByFilter({
+          _id: { $in: productIds },
+        });
+
+        productDetails.map((item) => {
+          let singleItem = {
+            id: item._id,
+            name: item.name,
+            image: item.images[0],
+            price: item?.afterDiscount ?? item.price,
+            qty: 0,
+            amt: 0,
+          };
+          let qty = null;
+          cartItems.map((cart) => {
+            if (item._id.equals(cart.productId)) {
+              qty = cart.qty;
+            }
+            singleItem.qty = cart.qty;
+          });
+          singleItem.amt = singleItem.qty * singleItem.price;
+          cartDetails.push(singleItem);
+          formattedData.subTotal += singleItem.amt;
+        });
+        // console.log(cartDetails);
+        formattedData.subTotal = Number(formattedData.subTotal.toFixed(2));
+        formattedData.details = cartDetails;
+        formattedData.totalAmt =
+          formattedData.subTotal -
+          formattedData.discount +
+          (formattedData.subTotal - formattedData.discount) * 0.13;
+        formattedData.totalAmt = Number(formattedData.totalAmt.toFixed(2));
+
+        if (formattedData.totalAmt <= 200000) {
+          formattedData.shippingFee = Number(0.5 * formattedData.totalAmt);
+        } else {
+          formattedData.shippingFee = 0;
+        }
+
+        res.json({
+          data: formattedData,
+          status: true,
+          msg: "Cart Details",
+        });
+      }
+    } catch (error) {
+      next(error);
+    }
+  };
 }
 const productControllerObj = new ProductController();
 module.exports = productControllerObj;

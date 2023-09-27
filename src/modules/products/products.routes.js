@@ -30,6 +30,8 @@ router.get("/search", productControllerObj.getSearchResult);
 
 router.get("/slug/:productSlug", productControllerObj.getProductBySlug);
 
+router.post("/cart-details", productControllerObj.getCartDetails);
+
 router
   .route("/:id")
   .put(
