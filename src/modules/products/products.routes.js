@@ -29,6 +29,7 @@ router
 router.get("/search", productControllerObj.getSearchResult);
 
 router.get("/slug/:productSlug", productControllerObj.getProductBySlug);
+router.get("/id/:id", productControllerObj.getProductById);
 
 router.post("/cart-details", productControllerObj.getCartDetails);
 
