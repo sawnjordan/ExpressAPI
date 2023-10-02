@@ -81,6 +81,28 @@ class OrderController {
       next(error);
     }
   };
+
+  getAllOrders = async (req, res, next) => {
+    try {
+      let allOrders = await OrderModel.find()
+        .populate({
+          path: "buyer",
+          select:
+            "-password -createdBy -createdAt -updatedAt -role -status -active -activationToken -passwordResetToken",
+        })
+        .populate("orderDetails.id")
+        .sort({ _id: "desc" });
+
+      res.json({
+        data: allOrders,
+        status: true,
+        msg: "Order Fetched.",
+      });
+    } catch (error) {
+      console.log(error);
+      next(error);
+    }
+  };
 }
 const orderControllerObj = new OrderController();
 module.exports = orderControllerObj;

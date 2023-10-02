@@ -1,4 +1,5 @@
 const auth = require("../../middlewares/auth.middlware");
+const checkPermission = require("../../middlewares/rbac.middleware");
 const orderControllerObj = require("./orders.controller");
 
 const router = require("express").Router();
@@ -8,6 +9,13 @@ const router = require("express").Router();
 // });
 
 router.post("/", auth, orderControllerObj.placeNewOrder);
+
+router.get(
+  "/",
+  auth,
+  checkPermission("admin"),
+  orderControllerObj.getAllOrders
+);
 
 // router.get("/:id", (req, res, next) => {
 //   res.json({
