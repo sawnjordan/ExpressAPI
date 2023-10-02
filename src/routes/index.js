@@ -18,7 +18,7 @@ router.use("/brands", brandRoutes);
 router.use("/category", categoryRoutes);
 router.use("/products", productRoutes);
 router.use("/user", userRoutes);
-// router.use("/orders", orderRoutes);
+router.use("/orders", orderRoutes);
 
 // router.use((req, res, next) => {
 //   console.log("I am always called");

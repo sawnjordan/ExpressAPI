@@ -3,7 +3,7 @@ const ProductStoreTransformer = require("./product.transform");
 const { default: slugify } = require("slugify");
 const path = require("path");
 const fs = require("fs");
-const { error } = require("console");
+// const { error } = require("console");
 
 class ProductController {
   getProductForHomePage = async (req, res, next) => {
@@ -312,6 +312,9 @@ class ProductController {
           formattedData.subTotal -
           formattedData.discount +
           (formattedData.subTotal - formattedData.discount) * 0.13;
+        formattedData.tax = Number(
+          (formattedData.subTotal - formattedData.discount) * 0.13
+        ).toFixed(2);
         formattedData.totalAmt = Number(formattedData.totalAmt.toFixed(2));
 
         if (formattedData.totalAmt <= 200000) {
