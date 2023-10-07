@@ -1,6 +1,45 @@
 const { z } = require("zod");
 const UserModel = require("../auth/user.model");
 class UserServices {
+  validateUserUpdateData = (data) => {
+    try {
+      if (typeof data.address === "string") {
+        data.address = JSON.parse(data.address);
+      }
+      const validateSchema = z.object({
+        //all properties are required by default
+        name: z
+          .string()
+          .min(3, {
+            message: "Name must be of atlest 3 characters.",
+          })
+          .nonempty(),
+        email: z.string().email().nonempty(),
+        address: z.object({
+          shippingAddress: z.string().nullable(),
+          billingAddress: z.string().nullable(),
+        }),
+        phone: z.string().min(7, {
+          message: "The Phone number must contain atleast 7 numbers.",
+        }),
+        image: z.string().nullable(),
+        role: z
+          .string()
+          .regex(/seller|customer/)
+          .nonempty(),
+      });
+      let response = validateSchema.parse(data);
+      // console.log(response);
+      return response;
+    } catch (error) {
+      console.log(error);
+      let errorBags = {};
+      error.errors.map((item) => {
+        errorBags[item.path[0]] = item.message;
+      });
+      throw { status: 400, msg: errorBags };
+    }
+  };
   getCount = async () => {
     try {
       return await UserModel.count();
@@ -23,7 +62,12 @@ class UserServices {
 
   updateUser = async (id, data) => {
     try {
-      return await UserModel.findByIdAndUpdate(id, { $set: data });
+      // console.log(id, data, "here");
+      return await UserModel.findByIdAndUpdate(
+        id,
+        { $set: data },
+        { new: true }
+      );
     } catch (error) {
       console.log(error);
       throw error;

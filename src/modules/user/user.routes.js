@@ -16,6 +16,14 @@ const uploadDir = (req, res, next) => {
 
 router.route("/").get(userControllerObj.getAllUsers);
 
+router.put(
+  "/update",
+  auth,
+  uploadDir,
+  uploader.single("image"),
+  userControllerObj.updateMe
+);
+
 router
   .route("/:id")
   .put(

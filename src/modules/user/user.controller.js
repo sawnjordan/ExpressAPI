@@ -38,12 +38,39 @@ class UserController {
       let user = await userServiceObj.getUserById(userId);
       let data = req.body;
       if (req.file) {
-        data.logo = req.file.filename;
+        data.image = req.file.filename;
       } else {
-        data.logo = user.logo;
+        data.image = user.image;
       }
 
-      let validUserData = userServiceObj.validateUserData(data);
+      let validUserData = userServiceObj.validateUserUpdateData(data);
+      let updatedUser = await userServiceObj.updateUser(userId, validUserData);
+
+      if (updatedUser) {
+        res.json({
+          data: updatedUser,
+          status: true,
+          msg: "User Updated Successfully.",
+          meta: null,
+        });
+      } else {
+        throw { status: 400, msg: "Failed to update a user." };
+      }
+    } catch (error) {
+      console.log(error);
+      next(error);
+    }
+  };
+
+  updateMe = async (req, res, next) => {
+    try {
+      let data = req.body;
+      const userId = req.authUser._id;
+      if (req.file) {
+        data.image = req.file.filename;
+      }
+
+      let validUserData = userServiceObj.validateUserUpdateData(data);
       let updatedUser = await userServiceObj.updateUser(userId, validUserData);
 
       if (updatedUser) {
