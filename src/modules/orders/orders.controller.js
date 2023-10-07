@@ -103,6 +103,36 @@ class OrderController {
       next(error);
     }
   };
+
+  getAllMyOrders = async (req, res, next) => {
+    try {
+      let myId = req.authUser._id;
+      let myOrders = await OrderModel.find({
+        buyer: myId,
+      })
+        .populate({
+          path: "buyer",
+          select:
+            "-password -createdBy -createdAt -updatedAt -role -status -active -activationToken -passwordResetToken",
+        })
+        .populate({
+          path: "orderDetails.id",
+          populate: {
+            path: "brand",
+          },
+        })
+        .sort({ _id: "desc" });
+
+      res.json({
+        data: myOrders,
+        status: true,
+        msg: "My Order Fetched.",
+      });
+    } catch (error) {
+      console.log(error);
+      next(error);
+    }
+  };
 }
 const orderControllerObj = new OrderController();
 module.exports = orderControllerObj;

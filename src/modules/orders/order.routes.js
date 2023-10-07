@@ -16,6 +16,7 @@ router.get(
   checkPermission("admin"),
   orderControllerObj.getAllOrders
 );
+router.get("/me", auth, orderControllerObj.getAllMyOrders);
 
 // router.get("/:id", (req, res, next) => {
 //   res.json({
