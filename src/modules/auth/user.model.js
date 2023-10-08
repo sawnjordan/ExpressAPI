@@ -32,6 +32,7 @@ const UserSchema = new mongoose.Schema(
     },
     image: String,
     phone: String,
+    wishlist: [{ type: mongoose.Types.ObjectId, ref: "Product" }],
     createdBy: {
       type: mongoose.Types.ObjectId,
       default: null,

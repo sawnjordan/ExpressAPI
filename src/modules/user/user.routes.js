@@ -16,6 +16,9 @@ const uploadDir = (req, res, next) => {
 
 router.route("/").get(userControllerObj.getAllUsers);
 
+router.put("/wishlist", auth, userControllerObj.addToWishlist);
+router.get("/wishlist", auth, userControllerObj.getWishlist);
+
 router.put(
   "/update",
   auth,

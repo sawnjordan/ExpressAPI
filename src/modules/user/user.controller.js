@@ -120,6 +120,69 @@ class UserController {
       next(error);
     }
   };
+  addToWishlist = async (req, res, next) => {
+    try {
+      const authUser = req.authUser;
+      const { productId } = req.body;
+      console.log(productId);
+      const alreadyAdded = authUser.wishlist.find(
+        (id) => id.toString() === productId
+      );
+      // console.log(alreadyAdded);
+      if (alreadyAdded) {
+        const user = await UserModel.findByIdAndUpdate(
+          authUser._id,
+          {
+            $pull: { wishlist: productId },
+          },
+          { new: true, select: "wishlist" }
+        ).populate("wishlist");
+        res.json({
+          data: { user, isAdded: false },
+          status: true,
+          msg: "Wishlist Updated Successfully.",
+          meta: null,
+        });
+      } else {
+        const user = await UserModel.findByIdAndUpdate(
+          authUser._id,
+          {
+            $push: { wishlist: productId },
+          },
+          { new: true, select: "wishlist" }
+        ).populate("wishlist");
+        // console.log(user);
+        res.json({
+          data: { user, isAdded: true },
+          status: true,
+          msg: "Wishlist Updated.",
+          meta: null,
+        });
+      }
+    } catch (error) {
+      console.log(error);
+      next(error);
+    }
+  };
+
+  getWishlist = async (req, res, next) => {
+    try {
+      const userId = req.authUser._id;
+      const wishlist = await UserModel.findById(userId, "wishlist").populate({
+        path: "wishlist",
+      });
+      // console.log(wishlist);
+      res.json({
+        data: wishlist,
+        status: true,
+        msg: "Wishlist Fetched Successfully",
+        meta: null,
+      });
+    } catch (error) {
+      console.log(error);
+      next(error);
+    }
+  };
 }
 const userControllerObj = new UserController();
 module.exports = userControllerObj;
