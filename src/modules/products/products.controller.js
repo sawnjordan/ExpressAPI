@@ -176,7 +176,7 @@ class ProductController {
 
   deleteImage = async (req, res, next) => {
     try {
-      console.log(req.originalUrl);
+      // console.log(req.originalUrl);
       let dir = "./public/annon";
       const originalURL = req.originalUrl;
       // console.log(typeof originalURL);
