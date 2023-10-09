@@ -138,7 +138,8 @@ class UserController {
           { new: true, select: "wishlist" }
         ).populate("wishlist");
         res.json({
-          data: { user, isAdded: false },
+          data: user,
+          isAdded: false,
           status: true,
           msg: "Wishlist Updated Successfully.",
           meta: null,
@@ -153,7 +154,8 @@ class UserController {
         ).populate("wishlist");
         // console.log(user);
         res.json({
-          data: { user, isAdded: true },
+          data: user,
+          isAdded: true,
           status: true,
           msg: "Wishlist Updated.",
           meta: null,
@@ -170,6 +172,9 @@ class UserController {
       const userId = req.authUser._id;
       const wishlist = await UserModel.findById(userId, "wishlist").populate({
         path: "wishlist",
+        populate: {
+          path: "brand",
+        },
       });
       // console.log(wishlist);
       res.json({
