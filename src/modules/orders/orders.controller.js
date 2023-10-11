@@ -133,6 +133,58 @@ class OrderController {
       next(error);
     }
   };
+
+  getUserOrder = async (req, res, next) => {
+    try {
+      const orderId = req.params.id;
+      let userOrder = await OrderModel.findById(orderId)
+        .populate({
+          path: "buyer",
+          select:
+            "-password -createdBy -createdAt -updatedAt -role -status -active -activationToken -passwordResetToken",
+        })
+        .populate("orderDetails.id")
+        .sort({ _id: "desc" });
+
+      res.json({
+        data: userOrder,
+        status: true,
+        msg: "Order Fetched.",
+      });
+    } catch (error) {
+      console.log(error);
+      next(error);
+    }
+  };
+
+  updateUserOrder = async (req, res, next) => {
+    try {
+      const orderId = req.params.id;
+      let userOrder = await OrderModel.findById(orderId);
+      //status isPaid
+      const { status, isPaid } = req.body;
+
+      if (userOrder.status === "delivered") {
+        return res.json({
+          status: true,
+          msg: "You have already delivered this order.",
+        });
+      }
+      userOrder.status = status;
+      userOrder.isPaid = isPaid;
+
+      userOrder.save();
+
+      res.json({
+        data: userOrder,
+        status: true,
+        msg: "Order Updated successfully.",
+      });
+    } catch (error) {
+      console.log(error);
+      next(error);
+    }
+  };
 }
 const orderControllerObj = new OrderController();
 module.exports = orderControllerObj;

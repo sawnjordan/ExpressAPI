@@ -20,13 +20,17 @@ const OrderSchema = new mongoose.Schema(
       },
     ],
     tax: Number,
-    isPaid: Boolean,
+    isPaid: { type: Boolean, default: false },
     totalAmt: Number,
     shippingFee: Number,
     status: {
       type: String,
       enum: ["new", "pending", "cancelled", "delivered"],
       default: "new",
+    },
+    payment: {
+      type: String,
+      default: "cod",
     },
   },
   {
