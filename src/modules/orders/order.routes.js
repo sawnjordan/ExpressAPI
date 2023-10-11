@@ -23,12 +23,16 @@ router.get(
   checkPermission("admin"),
   orderControllerObj.getUserOrder
 );
+router.get("/me/:id", auth, orderControllerObj.getMyOrder);
+
 router.put(
   "/:id",
   auth,
   checkPermission("admin"),
   orderControllerObj.updateUserOrder
 );
+
+router.put("/me/:id", auth, orderControllerObj.updateMyOrder);
 
 // router.get("/:id", (req, res, next) => {
 //   res.json({

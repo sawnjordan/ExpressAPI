@@ -1,4 +1,5 @@
 const productServiceObj = require("../products/products.services");
+const userControllerObj = require("../user/user.controller");
 const OrderModel = require("./orders.model");
 
 class OrderController {
@@ -156,6 +157,36 @@ class OrderController {
       next(error);
     }
   };
+  getMyOrder = async (req, res, next) => {
+    try {
+      const orderId = req.params.id;
+      const userId = req.authUser._id;
+      let userOrder = await OrderModel.find({ _id: orderId, buyer: userId })
+        .populate({
+          path: "buyer",
+          select:
+            "-password -createdBy -createdAt -updatedAt -role -status -active -activationToken -passwordResetToken",
+        })
+        .populate("orderDetails.id")
+        .sort({ _id: "desc" });
+      if (userOrder.length === 0) {
+        return res.json({
+          data: userOrder,
+          status: true,
+          msg: "Order not found. Please try again.",
+        });
+      }
+
+      res.json({
+        data: userOrder[0],
+        status: true,
+        msg: "Order Fetched successfully.",
+      });
+    } catch (error) {
+      console.log(error);
+      next(error);
+    }
+  };
 
   updateUserOrder = async (req, res, next) => {
     try {
@@ -179,6 +210,35 @@ class OrderController {
         data: userOrder,
         status: true,
         msg: "Order Updated successfully.",
+      });
+    } catch (error) {
+      console.log(error);
+      next(error);
+    }
+  };
+  updateMyOrder = async (req, res, next) => {
+    try {
+      const orderId = req.params.id;
+      const userId = req.authUser._id;
+      let userOrder = await OrderModel.find({ _id: orderId, buyer: userId });
+      if (userOrder.length === 0) {
+        return res.json({
+          data: userOrder,
+          status: true,
+          msg: "Order not found. Please try again.",
+        });
+      }
+
+      // console.log(userOrder, "here");
+      const { status } = req.body;
+
+      userOrder[0].status = status;
+      userOrder[0].save();
+
+      res.json({
+        data: userOrder[0],
+        status: true,
+        msg: "Order Cancelled.",
       });
     } catch (error) {
       console.log(error);
