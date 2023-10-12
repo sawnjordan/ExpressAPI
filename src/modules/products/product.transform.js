@@ -18,6 +18,7 @@ class ProductStoreTransformer {
     }
     data.costPrice = Number(data.costPrice);
     data.price = Number(data.price);
+    data.stock = Number(data.stock);
     data.discount = Number(data.discount);
     if (data?.discount !== 0) {
       data.afterDiscount = Number(
@@ -51,7 +52,7 @@ class ProductStoreTransformer {
     ) {
       data.sellerId = null;
     }
-    console.log(data);
+    // console.log(data);
     return data;
   };
 }

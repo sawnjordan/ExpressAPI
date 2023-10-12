@@ -35,6 +35,7 @@ class ProductServices {
         images: z.array(z.string()).nullable(),
         sellerId: z.string().nullable(),
         afterDiscount: z.number().nullable(),
+        stock: z.number().nonnegative({ message: "Value must be positive." }),
       });
       let response = validateProductSchema.parse(data);
       // console.log(response);

@@ -1,5 +1,6 @@
 const productServiceObj = require("../products/products.services");
 const userControllerObj = require("../user/user.controller");
+const orderServiceObj = require("./order.services");
 const OrderModel = require("./orders.model");
 
 class OrderController {
@@ -71,6 +72,10 @@ class OrderController {
 
         const order = new OrderModel(formattedData);
         let response = await order.save();
+
+        formattedData.orderDetails.map(async (item) => {
+          await orderServiceObj.updateStock(item.id, item.qty);
+        });
 
         res.json({
           data: response,
@@ -233,10 +238,15 @@ class OrderController {
       const { status } = req.body;
 
       userOrder[0].status = status;
-      userOrder[0].save();
+      // console.log(userOrder[0], "here");
+      const updatedOrder = await userOrder[0].save();
+      // console.log(updatedOrder);
+      updatedOrder.orderDetails.map(async (item) => {
+        await orderServiceObj.updateCancelledStock(item.id, item.qty);
+      });
 
       res.json({
-        data: userOrder[0],
+        data: updatedOrder,
         status: true,
         msg: "Order Cancelled.",
       });

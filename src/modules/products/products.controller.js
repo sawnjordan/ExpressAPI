@@ -43,7 +43,7 @@ class ProductController {
 
       await productServiceObj.getUniqueSlug(slug);
       validProductData.slug = productServiceObj._slug;
-      console.log(validProductData);
+      // console.log(validProductData);
       // console.log(productServiceObj);
 
       let newProduct = await productServiceObj.createProduct(validProductData);
