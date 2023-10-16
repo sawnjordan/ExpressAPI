@@ -1,7 +1,6 @@
 const { default: mongoose } = require("mongoose");
 const OrderModel = require("../orders/orders.model");
 const ProductModel = require("../products/products.model");
-
 class SellerController {
   getSellerProducts = async (req, res, next) => {
     try {
@@ -18,85 +17,55 @@ class SellerController {
         });
       }
 
-      const productData = [];
-      const productMeta = [];
-
-      await Promise.all(
+      const productData = await Promise.all(
         allProducts.map(async (item) => {
-          const response = await OrderModel.find({
-            "orderDetails.id": new mongoose.Types.ObjectId(item._id),
-          })
-            .select("orderDetails")
-            .populate({
-              path: "orderDetails.id", // Specify the name of the Product model
-            });
+          const resData = await OrderModel.aggregate([
+            {
+              $unwind: {
+                path: "$orderDetails",
+              },
+            },
+            {
+              $match: {
+                "orderDetails.id": new mongoose.Types.ObjectId(item.id),
+              },
+            },
+            {
+              $group: {
+                _id: "$orderDetails.id",
+                totalAmt: {
+                  $sum: "$orderDetails.amt",
+                },
+                totalQty: {
+                  $sum: "$orderDetails.qty",
+                },
+              },
+            },
+            {
+              $lookup: {
+                from: "products", // The name of the product collection
+                localField: "_id",
+                foreignField: "_id",
+                as: "productDetails",
+              },
+            },
+            {
+              $project: {
+                _id: 1,
+                totalAmt: 1,
+                totalQty: 1,
+                productDetails: { $arrayElemAt: ["$productDetails", 0] },
+              },
+            },
+          ]);
 
-          response.forEach((order) => {
-            // console.log(order, "order");
-            const matchingOrderDetail = order.orderDetails.find(
-              (orderDetail) => {
-                return orderDetail.id._id.toString() === item._id.toString();
-              }
-            );
-
-            if (
-              matchingOrderDetail &&
-              matchingOrderDetail.id._id.toString() === item._id.toString()
-            ) {
-              let totalQty = 0;
-              let totalPrice = 0;
-              totalQty += matchingOrderDetail.qty;
-              totalPrice += matchingOrderDetail.amt;
-              productMeta.push({
-                totalPrice,
-                totalQty,
-                prodId: item._id.toString(),
-              });
-
-              //   console.log(
-              //     totalprice,
-              //     totalqty,
-              //     matchingOrderDetail.id._id,
-              //     "sdfcgbhj"
-              //   );
-              //price, qty, amt
-
-              productData.push({
-                details: matchingOrderDetail,
-              });
-            }
-          });
+          return resData[0];
         })
       );
-
-      let productadskfj = [];
-      allProducts.map((item) => {
-        let totalProdQty = 0;
-        let totalProdAmt = 0;
-        productMeta.map((prod) => {
-          if (item._id.toString() === prod.prodId) {
-            totalProdQty += prod.totalQty;
-            totalProdAmt += prod.totalPrice;
-            productadskfj.push({
-              totalProdAmt,
-              totalProdQty,
-              prodId: prod.prodId,
-            });
-          }
-        });
-      });
-
-      const lastItems = {};
-
-      productadskfj.forEach((item) => {
-        lastItems[item.prodId] = item;
-      });
-
-      const result = Object.values(lastItems);
+      // console.log(productData, "here");
 
       res.json({
-        data: allProducts,
-        result,
+        data: productData,
         status: true,
         msg: "Product Fetched.",
       });
