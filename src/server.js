@@ -1,9 +1,9 @@
 require("dotenv").config();
-const http = require("http");
-const app = require("./config/app");
+const server = require("./config/socker.server");
+
 const PORT = 3005;
+
 //loading or mounting
-const server = http.createServer(app);
 
 //extra servers can be mounted on http
 

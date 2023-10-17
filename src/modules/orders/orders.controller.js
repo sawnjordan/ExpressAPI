@@ -72,13 +72,21 @@ class OrderController {
 
         const order = new OrderModel(formattedData);
         let response = await order.save();
+        const result = await OrderModel.findById(response._id).populate({
+          path: "orderDetails.id", // The field to populate
+          model: "Product", // The model to use for population
+          populate: {
+            path: "sellerId", // The field to populate in 'Product'
+            model: "User", // The model to use for population
+          },
+        });
 
         formattedData.orderDetails.map(async (item) => {
           await orderServiceObj.updateStock(item.id, item.qty);
         });
 
         res.json({
-          data: response,
+          data: result,
           status: true,
           msg: "Order has been placed.",
         });
