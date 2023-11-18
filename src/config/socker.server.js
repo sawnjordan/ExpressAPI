@@ -15,12 +15,13 @@ const io = new Server(server, {
 let onlineAdminUsers = [];
 
 const addNewAdminUser = (userName, socketId) => {
-  !onlineAdminUsers.some((user) => user.userName === userName) &&
+  if (!onlineAdminUsers.some((user) => user.userName === userName)) {
     onlineAdminUsers.push({ userName, socketId });
-  console.log(
-    `User "${userName}" connected. Online Admin Users:`,
-    onlineAdminUsers
-  );
+    console.log(
+      `User "${userName}" connected. Online Admin Users:`,
+      onlineAdminUsers
+    );
+  }
 };
 
 const removeAdminUser = (socketId) => {

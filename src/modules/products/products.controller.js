@@ -289,6 +289,7 @@ class ProductController {
             image: item.images[0],
             price: item?.afterDiscount ?? item.price,
             prodDis: item.discount ?? 0,
+            stock: item?.stock,
             qty: 0,
             amt: 0,
           };
