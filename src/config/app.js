@@ -14,7 +14,10 @@ mongodbInit();
 //   })
 // );
 
-const allowedOrigins = ["https://mern-frontend-sand.vercel.app/"];
+const allowedOrigins = [
+  "https://mern-frontend-sand.vercel.app/",
+  "http://localhost:5173/",
+];
 app.use(
   cors({
     origin: function (origin, callback) {
