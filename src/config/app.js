@@ -8,28 +8,28 @@ const cors = require("cors");
 const app = express();
 mongodbInit();
 
-// app.use(
-//   cors({
-//     origin: "https://mern-frontend-sand.vercel.app/",
-//   })
-// );
-
-const allowedOrigins = [
-  "https://mern-frontend-sand.vercel.app/",
-  "http://localhost:5173/",
-];
 app.use(
   cors({
-    origin: function (origin, callback) {
-      if (!origin || allowedOrigins.includes(origin)) {
-        callback(null, true);
-      } else {
-        callback(new Error("Not allowed by CORS"));
-      }
-    },
-    credentials: true, // Allow credentials
+    origin: "http://localhost:5173/",
   })
 );
+
+// const allowedOrigins = [
+//   "https://mern-frontend-sand.vercel.app/",
+//   "http://localhost:5173/",
+// ];
+// app.use(
+//   cors({
+//     origin: function (origin, callback) {
+//       if (!origin || allowedOrigins.includes(origin)) {
+//         callback(null, true);
+//       } else {
+//         callback(new Error("Not allowed by CORS"));
+//       }
+//     },
+//     credentials: true, // Allow credentials
+//   })
+// );
 
 //if your content type is application/json us this middleware
 app.use(express.json());
@@ -39,6 +39,11 @@ app.use(express.urlencoded({ extended: false }));
 
 //to use cookie
 app.use(cookieParser());
+
+// UI Test
+app.get("/", (req, res) => {
+  res.send("Api is working perfectly fine");
+});
 
 app.use("/api/v1", router);
 
