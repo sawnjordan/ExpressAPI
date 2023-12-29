@@ -18,7 +18,7 @@ const corsOptions = {
   methods: "GET,HEAD,PUT,PATCH,POST,DELETE",
   credentials: true, // Enable credentials (cookies, authorization headers)
 };
-app.use(corsOptions);
+app.use(cors(corsOptions));
 
 // const allowedOrigins = [
 //   "https://mern-frontend-sand.vercel.app/",
