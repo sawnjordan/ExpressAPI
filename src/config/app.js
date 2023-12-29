@@ -13,6 +13,7 @@ mongodbInit();
 //     origin: "https://mern-frontend-sand.vercel.app/",
 //   })
 // );
+
 const allowedOrigins = ["https://mern-frontend-sand.vercel.app/"];
 app.use(
   cors({
