@@ -53,7 +53,8 @@ app.get("/", (req, res) => {
 
 app.use("/api/v1", router);
 
-app.use("/assets", express.static(process.cwd() + "/public/uploads"));
+// app.use("/assets", express.static(process.cwd() + "/public/uploads"));
+app.use("/assets", express.static(__dirname + "/public/uploads"));
 //this is express global error handling middleware. The first parameter is always err.
 app.use((err, req, res, next) => {
   console.log(err);
