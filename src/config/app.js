@@ -8,9 +8,22 @@ const cors = require("cors");
 const app = express();
 mongodbInit();
 
+// app.use(
+//   cors({
+//     origin: "https://mern-frontend-sand.vercel.app/",
+//   })
+// );
+const allowedOrigins = ["https://mern-frontend-sand.vercel.app/"];
 app.use(
   cors({
-    origin: "https://mern-frontend-sand.vercel.app/",
+    origin: function (origin, callback) {
+      if (!origin || allowedOrigins.includes(origin)) {
+        callback(null, true);
+      } else {
+        callback(new Error("Not allowed by CORS"));
+      }
+    },
+    credentials: true, // Allow credentials
   })
 );
 
