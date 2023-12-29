@@ -3,8 +3,9 @@ const router = require("../routes");
 const cookieParser = require("cookie-parser");
 const mongodbInit = require("./mongo.config");
 const cors = require("cors");
+const path = require("path");
 // const { TokenExpiredError } = require("jsonwebtoken");
-
+const __dirname1 = path.resolve();
 const app = express();
 mongodbInit();
 
@@ -54,7 +55,7 @@ app.get("/", (req, res) => {
 app.use("/api/v1", router);
 
 // app.use("/assets", express.static(process.cwd() + "/public/uploads"));
-app.use("/assets", express.static(__dirname + "/public/uploads"));
+app.use("/assets", express.static(path.join(__dirname1, "/public/uploads")));
 //this is express global error handling middleware. The first parameter is always err.
 app.use((err, req, res, next) => {
   console.log(err);
