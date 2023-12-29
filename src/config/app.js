@@ -8,11 +8,17 @@ const cors = require("cors");
 const app = express();
 mongodbInit();
 
-app.use(
-  cors({
-    origin: "http://localhost:5173/",
-  })
-);
+// const corsOptions = {
+//   origin: 'https://mern-frontend-sand.vercel.app/',
+//   methods: 'GET,HEAD,PUT,PATCH,POST,DELETE',
+//   credentials: true,  // Enable credentials (cookies, authorization headers)
+// };
+const corsOptions = {
+  origin: "http://localhost:5173/",
+  methods: "GET,HEAD,PUT,PATCH,POST,DELETE",
+  credentials: true, // Enable credentials (cookies, authorization headers)
+};
+app.use(corsOptions);
 
 // const allowedOrigins = [
 //   "https://mern-frontend-sand.vercel.app/",
