@@ -28,16 +28,17 @@ const allowedOrigins = [
 
 const corsOptions = {
   origin: function (origin, callback) {
+    console.log("Incoming Origin:", origin); // Debugging
+
     if (!origin || allowedOrigins.includes(origin)) {
-      callback(null, true);
+      callback(null, origin); // Dynamically set the requesting origin
     } else {
       callback(new Error("Not allowed by CORS"));
     }
   },
   methods: "GET,HEAD,PUT,PATCH,POST,DELETE",
-  credentials: true, // Enable credentials (cookies, authorization headers)
+  credentials: true, // Allow cookies and auth headers
 };
-
 app.use(cors(corsOptions));
 
 // const allowedOrigins = [
