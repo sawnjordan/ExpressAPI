@@ -10,7 +10,7 @@ const app = express();
 mongodbInit();
 
 const corsOptions = {
-  origin: "https://mern-frontend-drab.vercel.app/",
+  origin: "*",
   methods: "GET,HEAD,PUT,PATCH,POST,DELETE",
   credentials: true, // Enable credentials (cookies, authorization headers)
 };
