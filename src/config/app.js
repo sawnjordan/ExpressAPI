@@ -9,16 +9,35 @@ const __dirname1 = path.resolve();
 const app = express();
 mongodbInit();
 
-const corsOptions = {
-  origin: "https://mern-frontend-drab.vercel.app/",
-  methods: "GET,HEAD,PUT,PATCH,POST,DELETE",
-  credentials: true, // Enable credentials (cookies, authorization headers)
-};
 // const corsOptions = {
-//   origin: "http://localhost:5173/",
+//   origin: "https://mern-frontend-drab.vercel.app/",
 //   methods: "GET,HEAD,PUT,PATCH,POST,DELETE",
 //   credentials: true, // Enable credentials (cookies, authorization headers)
 // };
+// // const corsOptions = {
+// //   origin: "http://localhost:5173/",
+// //   methods: "GET,HEAD,PUT,PATCH,POST,DELETE",
+// //   credentials: true, // Enable credentials (cookies, authorization headers)
+// // };
+// app.use(cors(corsOptions));
+
+const allowedOrigins = [
+  "https://mern-frontend-drab.vercel.app",
+  "http://localhost:5173",
+];
+
+const corsOptions = {
+  origin: function (origin, callback) {
+    if (!origin || allowedOrigins.includes(origin)) {
+      callback(null, true);
+    } else {
+      callback(new Error("Not allowed by CORS"));
+    }
+  },
+  methods: "GET,HEAD,PUT,PATCH,POST,DELETE",
+  credentials: true, // Enable credentials (cookies, authorization headers)
+};
+
 app.use(cors(corsOptions));
 
 // const allowedOrigins = [

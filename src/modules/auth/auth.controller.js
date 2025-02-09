@@ -132,7 +132,7 @@ class AuthController {
         throw { status: 400, msg: "Credentials Required." };
       }
       let user = await this.authService.getUserByFilter({ email });
-      console.log(user);
+
       if (!user || user.length === 0) {
         throw { status: 404, msg: "User doesn't exists." };
       } else {
