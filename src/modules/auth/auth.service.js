@@ -73,7 +73,17 @@ class AuthService {
       return await newUser.save();
     } catch (error) {
       console.log(error);
-      throw { status: 500, msg: "Error Processing the query." };
+      if (error.code === 11000 && error.keyPattern) {
+        const fieldName = Object.keys(error.keyPattern)[0];
+        const formattedField = fieldName.charAt(0).toUpperCase() + fieldName.slice(1);
+        throw {
+          status: 400,
+          msg: {
+            [fieldName]: `${formattedField} already exists.`
+          }
+        };
+      }
+      throw { status: 500, msg: error.message || "Error Processing the query." };
     }
   };
   getUserByToken = async (activationToken) => {

@@ -56,8 +56,8 @@ class AuthController {
         status: true,
         msg: "Register successful.",
         meta: {
-          emailStatus: "Success",
-          emailMessageId: sendMailSuccess.messageId,
+          emailStatus: sendMailSuccess ? "Success" : "Failed",
+          emailMessageId: sendMailSuccess ? sendMailSuccess.messageId : null,
         },
       });
     } catch (error) {
